@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Über mich – Axel Rudolf Trapp · Der Brief</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+
+        /* =============================================
+           ROOT VARIABLES – identisch mit index.html
+           ============================================= */
+        :root {
+            --clr-bg:         #0d1321;
+            --clr-bg-alt:     #0f1929;
+            --clr-bg-card:    #16233d;
+            --clr-accent:     #6b8fc9;   /* Stahlblau */
+            --clr-accent-dim: #4a6a9a;   /* dunkler Blau-Ton */
+            --clr-text:       #e8eaed;
+            --clr-muted:      #7a90b0;
+            --clr-border:     #1e2d44;
+            --font-heading:   'Poppins', Arial, sans-serif;
+            --font-body:      'Roboto', Arial, sans-serif;
+            --transition:     0.3s ease;
+            --radius:         4px;
+        }
+
+        /* =============================================
+           RESET & BASE
+           ============================================= */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--clr-bg);
+            color: var(--clr-text);
+            font-family: var(--font-body);
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        a { color: inherit; text-decoration: none; }
+        img { display: block; max-width: 100%; }
+
+        /* =============================================
+           NAVIGATION
+           ============================================= */
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(10, 16, 28, 0.68);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--clr-border);
+            padding: 0.8rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: padding var(--transition);
+        }
+
+        .nav.scrolled { padding: 0.5rem 2rem; }
+
+        .nav-logo {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            color: var(--clr-text);
+            letter-spacing: 1px;
+            font-weight: 400;
+        }
+
+        .nav-logo span {
+            color: var(--clr-accent);
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.75rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            color: var(--clr-muted);
+            transition: color var(--transition);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active { color: var(--clr-accent); }
+
+        .nav-btn {
+            padding: 0.5rem 1.25rem;
+            border: 1px solid var(--clr-accent);
+            color: var(--clr-accent);
+            border-radius: var(--radius);
+            font-size: 0.78rem;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all var(--transition);
+        }
+
+        .nav-btn:hover {
+            background: var(--clr-accent);
+            color: #fff;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--clr-accent);
+            font-size: 1.6rem;
+            cursor: pointer;
+        }
+
+        /* =============================================
+           HERO – SPLIT LAYOUT
+           ============================================= */
+        .hero-split {
+            display: grid;
+            grid-template-columns: 55% 45%;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Left: photo – fills edge to edge */
+        .hero-photo {
+            position: relative;
+            overflow: hidden;
+            background: #080e1c;
+            padding-top: 60px; /* nav offset */
+        }
+
+        .hero-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            filter: grayscale(100%);
+            opacity: 0.92;
+            display: block;
+        }
+
+        /* Right: info panel – slightly overlaps image via negative margin */
+        .hero-info {
+            background: var(--clr-bg-alt);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 5rem 3rem 4rem;
+            margin-left: -2.5rem;
+            z-index: 1;
+            box-shadow: -8px 0 32px rgba(0,0,0,0.5);
+        }
+
+        .hero-name {
+            font-family: var(--font-heading);
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            font-weight: 700;
+            color: var(--clr-accent);
+            line-height: 1.2;
+            margin-bottom: 1.75rem;
+        }
+
+        .hero-facts {
+            list-style: none;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-facts li {
+            font-family: var(--font-heading);
+            font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+            font-weight: 400;
+            color: var(--clr-accent);
+            padding: 0.4rem 0;
+            border-bottom: 1px solid var(--clr-border);
+        }
+
+        .hero-facts li:last-child { border-bottom: none; }
+
+        .hero-motto {
+            font-family: var(--font-heading);
+            font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+            font-weight: 600;
+            color: var(--clr-accent);
+            font-style: italic;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--clr-border);
+        }
+
+        /* =============================================
+           CONTENT SECTIONS
+           ============================================= */
+        .content {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .content-section {
+            margin-bottom: 4rem;
+        }
+
+        .content-heading {
+            font-family: var(--font-heading);
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            font-weight: 700;
+            color: var(--clr-accent);
+            letter-spacing: 0.3px;
+            margin-bottom: 1.25rem;
+            line-height: 1.25;
+        }
+
+        .content-text {
+            font-size: 0.97rem;
+            line-height: 1.9;
+            color: var(--clr-text);
+            font-weight: 300;
+        }
+
+        .content-text p {
+            margin-bottom: 1.25rem;
+        }
+
+        .content-text p:last-child { margin-bottom: 0; }
+
+        .content-rule {
+            width: 50px;
+            height: 2px;
+            background: var(--clr-accent);
+            margin: 1rem 0 2rem;
+            opacity: 0.6;
+        }
+
+        /* alt background section */
+        .content-alt {
+            background: var(--clr-bg-alt);
+            border-top: 1px solid var(--clr-border);
+            border-bottom: 1px solid var(--clr-border);
+        }
+
+        /* =============================================
+           QUOTE BOX
+           ============================================= */
+        .quote-box {
+            border-left: 3px solid var(--clr-accent);
+            padding: 1rem 1.5rem;
+            margin: 2rem 0;
+            background: rgba(107, 143, 201, 0.06);
+        }
+
+        .quote-box p {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--clr-accent);
+            line-height: 1.7;
+            margin: 0 !important;
+        }
+
+        /* =============================================
+           CLOSING
+           ============================================= */
+        .closing {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--clr-bg-alt);
+            border-top: 1px solid var(--clr-border);
+        }
+
+        .closing-text {
+            font-size: 1rem;
+            color: var(--clr-muted);
+            font-style: italic;
+        }
+
+        .closing-link {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.7rem 1.75rem;
+            border: 1px solid var(--clr-accent);
+            color: var(--clr-accent);
+            font-family: var(--font-heading);
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            border-radius: var(--radius);
+            transition: all var(--transition);
+        }
+
+        .closing-link:hover {
+            background: var(--clr-accent);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* =============================================
+           FOOTER
+           ============================================= */
+        .footer {
+            background: #080e1c;
+            border-top: 1px solid var(--clr-border);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--clr-accent);
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+        }
+
+        .footer-sub {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--clr-muted);
+            margin-bottom: 1.75rem;
+        }
+
+        .footer-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-bottom: 1.75rem;
+        }
+
+        .footer-nav a {
+            font-size: 0.78rem;
+            color: var(--clr-muted);
+            transition: color var(--transition);
+        }
+
+        .footer-nav a:hover { color: var(--clr-accent); }
+
+        .footer-copy {
+            font-size: 0.7rem;
+            color: #2a3a55;
+        }
+
+        /* =============================================
+           SCROLL REVEAL
+           ============================================= */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* =============================================
+           RESPONSIVE
+           ============================================= */
+        @media (max-width: 900px) {
+            .hero-split {
+                grid-template-columns: 1fr;
+                grid-template-rows: 55vh auto;
+            }
+
+            .hero-photo { min-height: 55vh; padding-top: 0; }
+
+            .hero-info {
+                padding: 2.5rem 1.5rem;
+                margin-left: 0;
+                box-shadow: none;
+                border-top: 1px solid var(--clr-border);
+                border-top: 1px solid var(--clr-border);
+            }
+
+            .hero-name { font-size: 1.8rem; }
+        }
+
+        @media (max-width: 700px) {
+            .nav-links { display: none; }
+            .nav-links.open {
+                display: flex;
+                position: absolute;
+                top: 100%;
+                left: 0; right: 0;
+                flex-direction: column;
+                background: rgba(10, 16, 28, 0.99);
+                padding: 1.5rem 2rem;
+                gap: 1rem;
+                border-bottom: 1px solid var(--clr-border);
+            }
+            .nav-toggle { display: block; }
+            .content { padding: 3.5rem 1.25rem; }
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav class="nav" id="mainNav">
+    <a href="index.html" class="nav-logo">Der Brief <span>· das Soulmusical</span></a>
+
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#" onclick="history.back(); return false;">Zurück</a></li>
+        <li><a href="index.html#kontakt" class="nav-btn">KONTAKT</a></li>
+    </ul>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Menü öffnen">&#9776;</button>
+</nav>
+
+
+<!-- ============================================================
+     HERO – SPLIT: FOTO + INFO
+     ============================================================ -->
+<section class="hero-split" id="ueber-mich">
+
+    <!-- Linke Seite: Foto -->
+    <div class="hero-photo">
+        <img src="images/aboutaxel.png" alt="Axel Rudolf Trapp">
+    </div>
+
+    <!-- Rechte Seite: Info -->
+    <div class="hero-info">
+        <h1 class="hero-name">Axel Rudolf Trapp</h1>
+
+        <ul class="hero-facts">
+            <li>*08.11.1956</li>
+            <li>Architekt</li>
+            <li>Bassist</li>
+            <li>Verheiratet</li>
+            <li>Vater von 4 Kindern</li>
+        </ul>
+
+        <div class="hero-motto">… aus Liebe zu Jesus Christus</div>
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     HAUPTINHALT
+     ============================================================ -->
+<main>
+
+    <!-- Geschichte hinter dem Musical -->
+    <div class="content">
+        <div class="content-section reveal">
+            <h2 class="content-heading">Der Brief – Die Geschichte hinter dem Musical</h2>
+            <div class="content-rule"></div>
+            <div class="content-text">
+                <p>
+                    Ich hatte einen Traum: Mit einer Band ein komplettes Programm zu spielen, das eine Geschichte erzählt,
+                    die Menschen zum Nachdenken bringt. Etwas mit Substanz.
+                </p>
+                <p>
+                    So entstand die Idee zu DER BRIEF – ein Musical über die Beziehung zwischen einem Vater und seiner
+                    Tochter. Sie verlässt ihn für vielversprechende Investitionen. Er gibt ihr einen Brief mit, aber sie
+                    öffnet ihn nicht. Erst an ihrem absoluten Tiefpunkt, als sie aus ihrer Wohnung fliegt, liest sie seine
+                    Worte: Bedingungslose Liebe und Treue.
+                </p>
+            </div>
+        </div>
+
+        <div class="content-section reveal">
+            <h2 class="content-heading">Warum diese Geschichte?</h2>
+            <div class="content-rule"></div>
+            <div class="content-text">
+                <p>Weil es meine Geschichte ist.</p>
+                <p>
+                    Ich war enttäuscht – von Gott, vom Leben, davon, wie Dinge liefen, die nicht so funktionierten,
+                    wie ich dachte, dass sie müssten. Jahrzehntelang habe ich mein Glück woanders gesucht – in
+                    Beziehungen, in Abenteuern, in Dingen, die am Ende nicht erfüllt haben. Ich habe den ignoriert,
+                    der immer da war.
+                </p>
+                <p>
+                    Dann hat mich eines Tages eine einfache Botschaft völlig überrascht: die Erkenntnis, wie sehr ich
+                    geliebt bin – bedingungslos, trotz allem. Das hat mich buchstäblich von den Füßen geholt.
+                    Ich bin zurückgerannt.
+                </p>
+                <div class="quote-box">
+                    <p>
+                        Und dann wurde mir klar: In all den Jahren, in all meinen Episoden und Umwegen war diese Liebe
+                        immer da. Ganz nah. Ich hatte nur nicht hingesehen.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section reveal">
+            <h2 class="content-heading">Warum dieses Musical?</h2>
+            <div class="content-rule"></div>
+            <div class="content-text">
+                <p>
+                    Ich will eine Geschichte erzählen, die universell ist: Scheitern, Sehnsucht, Vergebung. Jeder
+                    kann sich darin wiederfinden. Und wenn jemand im Publikum sitzt und denkt:
+                </p>
+                <div class="quote-box">
+                    <p>
+                        „Vielleicht gibt es da etwas, das größer ist als ich dachte. Vielleicht bin ich nicht allein.
+                        Vielleicht ist es nicht zu spät" – dann hat es sich gelohnt.
+                    </p>
+                </div>
+                <p>
+                    Ich bin unglaublich dankbar für jeden, der Teil dieses Projekts ist: Liebe Freunde, die an mich
+                    glauben und mit anpacken. Jedes Bandmitglied, das seine Zeit, sein Talent und sein Herzblut einbringt.
+                </p>
+                <p>
+                    Wir machen das gemeinsam. Nicht für Ruhm oder Geld. Sondern weil wir an diese Geschichte glauben.
+                    Weil wir glauben, dass Musik und Theater Menschen berühren können, auf eine Weise, die Worte allein
+                    nicht schaffen.
+                </p>
+                <p>
+                    „Der Brief" ist meine Art zu sagen: Du bist geliebt. Du bist nicht allein.
+                    Es ist nie zu spät, nach Hause zu kommen.
+                </p>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+
+<!-- ============================================================
+     ABSCHLUSS
+     ============================================================ -->
+<div class="closing reveal">
+    <p class="closing-text">Danke für Dein Interesse!! … ich hoffe, wir sehen uns bald!</p>
+    <a href="#" onclick="history.back(); return false;" class="closing-link">Zurück</a>
+</div>
+
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+    <div class="footer-logo">DER BRIEF</div>
+    <div class="footer-sub">Das Soul-Musical</div>
+
+    <nav class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="index.html#cast">Besetzung</a>
+        <a href="index.html#band">Band</a>
+        <a href="index.html#konzept">Konzept</a>
+        <a href="index.html#spenden">Spenden</a>
+        <a href="index.html#kontakt">Kontakt</a>
+        <a href="#">Impressum</a>
+        <a href="#">Datenschutz</a>
+        <a href="#">Cookie-Einstellungen</a>
+    </nav>
+
+    <p class="footer-copy">&copy; 2025 Förderverein Cadenza &nbsp;·&nbsp; DER BRIEF – Das Soul-Musical</p>
+</footer>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+    /* ── Navigation mobile toggle ── */
+    const navToggle = document.getElementById('navToggle');
+    const navLinks  = document.getElementById('navLinks');
+
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+    navLinks.querySelectorAll('a').forEach(l => l.addEventListener('click', () => navLinks.classList.remove('open')));
+
+    /* ── Nav shrink on scroll ── */
+    window.addEventListener('scroll', () => {
+        document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    /* ── Scroll reveal ── */
+    const observer = new IntersectionObserver(
+        entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }),
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

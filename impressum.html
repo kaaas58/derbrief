@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impressum &amp; Datenschutz – Der Brief · Das Soul-Musical</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+
+        :root {
+            --clr-bg:         #0d1321;
+            --clr-bg-alt:     #0f1929;
+            --clr-bg-card:    #16233d;
+            --clr-accent:     #6b8fc9;
+            --clr-text:       #e8eaed;
+            --clr-muted:      #7a90b0;
+            --clr-border:     #1e2d44;
+            --font-heading:   'Poppins', Arial, sans-serif;
+            --font-body:      'Roboto', Arial, sans-serif;
+            --transition:     0.3s ease;
+            --radius:         4px;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--clr-bg);
+            color: var(--clr-text);
+            font-family: var(--font-body);
+            font-weight: 300;
+            line-height: 1.85;
+        }
+
+        a { color: inherit; text-decoration: none; }
+        img { display: block; max-width: 100%; }
+
+        /* ── Navigation ── */
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(10,16,28,0.97);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--clr-border);
+            padding: 0.8rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            color: var(--clr-accent);
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+        .nav-logo span { font-weight: 400; font-size: 0.85rem; opacity: 0.7; }
+
+        .nav-links {
+            display: flex;
+            gap: 1.75rem;
+            list-style: none;
+        }
+        .nav-links a {
+            font-size: 0.78rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--clr-muted);
+            transition: color var(--transition);
+        }
+        .nav-links a:hover { color: #b8d4ff; }
+
+        /* ── Page header ── */
+        .page-header {
+            padding: 7rem 2rem 3rem;
+            background: var(--clr-bg-alt);
+            border-bottom: 1px solid var(--clr-border);
+            text-align: center;
+        }
+        .page-header-label {
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--clr-accent);
+            margin-bottom: 0.75rem;
+        }
+        .page-header h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--clr-text);
+        }
+        .page-header-rule {
+            width: 50px; height: 1px;
+            background: var(--clr-accent);
+            margin: 1.25rem auto 0;
+        }
+
+        /* ── Section tabs ── */
+        .section-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            border-bottom: 1px solid var(--clr-border);
+            background: var(--clr-bg);
+            position: sticky;
+            top: 60px;
+            z-index: 100;
+        }
+        .section-tabs a {
+            padding: 0.9rem 2rem;
+            font-size: 0.78rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--clr-muted);
+            border-bottom: 2px solid transparent;
+            transition: color var(--transition), border-color var(--transition);
+        }
+        .section-tabs a:hover,
+        .section-tabs a.active { color: var(--clr-accent); border-bottom-color: var(--clr-accent); }
+
+        /* ── Content ── */
+        .legal-section {
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 4rem 2rem 5rem;
+        }
+
+        .legal-section + .legal-section {
+            border-top: 1px solid var(--clr-border);
+        }
+
+        .legal-heading {
+            font-family: var(--font-heading);
+            font-size: clamp(1.4rem, 3vw, 2rem);
+            font-weight: 700;
+            color: var(--clr-accent);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--clr-border);
+        }
+
+        .legal-sub {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--clr-text);
+            margin: 2rem 0 0.5rem;
+        }
+
+        .legal-body p {
+            font-size: 0.92rem;
+            color: var(--clr-muted);
+            line-height: 1.95;
+            margin-bottom: 1rem;
+        }
+
+        .legal-body ul {
+            list-style: none;
+            margin: 0.5rem 0 1rem 0;
+        }
+        .legal-body ul li {
+            font-size: 0.92rem;
+            color: var(--clr-muted);
+            line-height: 1.85;
+            padding: 0.2rem 0 0.2rem 1.25rem;
+            position: relative;
+        }
+        .legal-body ul li::before {
+            content: '·';
+            position: absolute;
+            left: 0;
+            color: var(--clr-accent);
+        }
+
+        .legal-address {
+            background: var(--clr-bg-card);
+            border: 1px solid var(--clr-border);
+            border-left: 3px solid var(--clr-accent);
+            border-radius: var(--radius);
+            padding: 1.25rem 1.5rem;
+            margin: 1rem 0 1.5rem;
+            font-size: 0.92rem;
+            color: var(--clr-muted);
+            line-height: 2;
+        }
+        .legal-address a { color: var(--clr-accent); }
+        .legal-address a:hover { text-decoration: underline; }
+
+        .legal-note {
+            background: var(--clr-bg-card);
+            border: 1px solid var(--clr-border);
+            border-radius: var(--radius);
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+            font-size: 0.88rem;
+            color: var(--clr-muted);
+            line-height: 1.9;
+        }
+        .legal-note strong { color: var(--clr-text); font-weight: 600; }
+
+        .legal-date {
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: var(--clr-muted);
+            opacity: 0.7;
+            font-style: italic;
+        }
+
+        /* ── Footer ── */
+        .footer {
+            background: var(--clr-bg-alt);
+            border-top: 1px solid var(--clr-border);
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: var(--clr-accent);
+            margin-bottom: 0.35rem;
+        }
+        .footer-sub {
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: var(--clr-muted);
+            margin-bottom: 1.5rem;
+        }
+        .footer-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        .footer-nav a {
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            color: var(--clr-muted);
+            transition: color var(--transition);
+        }
+        .footer-nav a:hover { color: var(--clr-accent); }
+        .footer-copy {
+            font-size: 0.72rem;
+            color: var(--clr-muted);
+            opacity: 0.55;
+        }
+
+        @media (max-width: 700px) {
+            .legal-section { padding: 3rem 1.25rem 4rem; }
+            .section-tabs a { padding: 0.75rem 1rem; font-size: 0.7rem; }
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+    <a href="index.html" class="nav-logo">Der Brief <span>· das Soulmusical</span></a>
+    <ul class="nav-links">
+        <li><a href="#" onclick="history.back(); return false;">Zurück</a></li>
+        <li><a href="index.html#kontakt">Kontakt</a></li>
+    </ul>
+</nav>
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="page-header-label">Rechtliches</div>
+    <h1>Impressum &amp; Datenschutz</h1>
+    <div class="page-header-rule"></div>
+</div>
+
+<!-- Section Tabs -->
+<div class="section-tabs">
+    <a href="#impressum">Impressum</a>
+    <a href="#datenschutz">Datenschutz</a>
+</div>
+
+
+<!-- ============================================================
+     IMPRESSUM
+     ============================================================ -->
+<section class="legal-section" id="impressum">
+
+    <h2 class="legal-heading">Impressum</h2>
+
+    <div class="legal-body">
+        <p>Für die veröffentlichten Inhalte verantwortlich ist:</p>
+
+        <div class="legal-address">
+            Axel Rudolf Trapp<br>
+            Theodor-Heuss-Straße 110<br>
+            42109 Wuppertal<br><br>
+            T.: <a href="tel:+4917657928605">0176 57 92 86 05</a><br>
+            M.: <a href="mailto:derbriefdasmusical@gmx.de">derbriefdasmusical@gmx.de</a>
+        </div>
+
+        <p>Copyright © 2025 Axel Rudolf Trapp. Alle Inhalte dieser Website sind urheberrechtlich geschützt. Jede Verwendung außerhalb der Grenzen des Urheberrechtsgesetzes ist ohne ausdrückliche Zustimmung des Urhebers unzulässig und strafbar.</p>
+
+        <div class="legal-sub">Ein Hinweis für Abmahner</div>
+
+        <div class="legal-note">
+            Hiermit möchte ich klarstellen, dass ich mit dieser Webseite nicht unternehmerisch tätig bin, sondern rein privat. Etwaige genannte Markennamen werden zur Beschreibung genutzt, Rechte liegen bei den jeweiligen Inhabern. Falls Sie vermuten, dass von diesem Angebot Schutzrechte verletzt werden, teilen Sie mir das bitte umgehend zur Vermeidung unnötiger Kosten und Rechtsstreite per E-Mail mit, damit schnelle Abhilfe mittels Entfernen geschafft werden kann. Die Kostennote einer anwaltlichen Abmahnung, ohne vorhergehende Kontaktaufnahme mit mir, wird daher im Sinne der Schadensminderungspflicht als unbegründet zurückgewiesen.
+        </div>
+
+        <p>Bildnachweis: Barış Selcen on Unsplash, Mark McGregor on Unsplash</p>
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     DATENSCHUTZ
+     ============================================================ -->
+<section class="legal-section" id="datenschutz">
+
+    <h2 class="legal-heading">Datenschutzhinweise</h2>
+
+    <div class="legal-body">
+        <p>Der Schutz deiner persönlichen Daten ist mir wichtig. In diesen Datenschutzhinweisen erkläre ich dir, welche Informationen ich beim Besuch meiner privaten Website sammle, wofür ich sie nutze und wie ich sie schütze.</p>
+
+        <div class="legal-sub">1. Verantwortliche Stelle</div>
+        <p>Verantwortlich für die Datenverarbeitung auf dieser Website ist:</p>
+        <div class="legal-address">
+            Axel Rudolf Trapp<br>
+            Theodor-Heuss-Straße 110<br>
+            42109 Wuppertal<br><br>
+            T.: <a href="tel:+4917657928605">0176 57 92 86 05</a><br>
+            M.: <a href="mailto:derbriefdasmusical@gmx.de">derbriefdasmusical@gmx.de</a>
+        </div>
+
+        <div class="legal-sub">2. Gesammelte Daten und Verwendungszwecke</div>
+
+        <div class="legal-sub" style="font-size:0.9rem;margin-top:1rem;">a. Zugriffsdaten / Server-Logfiles</div>
+        <p>Wenn du meine Website besuchst, erfasst der Server, auf dem die Website liegt (Webhoster), automatisch Informationen in sogenannten Server-Logfiles. Dazu gehören:</p>
+        <ul>
+            <li>IP-Adresse deines Geräts</li>
+            <li>Datum und Uhrzeit des Zugriffs</li>
+            <li>Name der abgerufenen Datei</li>
+            <li>Meldung über erfolgreichen Abruf</li>
+            <li>Browsertyp und -version</li>
+            <li>Betriebssystem deines Geräts</li>
+            <li>Referrer URL (die zuvor besuchte Seite)</li>
+        </ul>
+        <p>Diese Daten dienen lediglich der technischen Bereitstellung der Website, der Sicherheit und der Fehleranalyse. Sie werden nicht dazu verwendet, Rückschlüsse auf deine Person zu ziehen.</p>
+
+        <div class="legal-sub" style="font-size:0.9rem;">b. Kontaktformular und E-Mail-Kontakt</div>
+        <p>Wenn du mich über ein Kontaktformular oder per E-Mail kontaktierst, speichere ich die von dir gemachten Angaben (z.B. Name, E-Mail-Adresse, Inhalt deiner Nachricht), um deine Anfrage bearbeiten und beantworten zu können. Diese Daten gebe ich nicht ohne deine Einwilligung an Dritte weiter.</p>
+
+        <div class="legal-sub">3. Cookies</div>
+        <p>Meine Website verwendet sogenannte „Cookies". Das sind kleine Textdateien, die auf deinem Endgerät gespeichert werden und dein Browser ablegt. Sie dienen dazu, mein Angebot nutzerfreundlicher, effektiver und sicherer zu machen. Die meisten von mir verwendeten Cookies sind so genannte „Session-Cookies", die nach Ende deines Besuchs automatisch gelöscht werden. Andere Cookies bleiben auf deinem Endgerät gespeichert, bis du sie löschst.</p>
+        <p>Du kannst deinen Browser so einstellen, dass du über das Setzen von Cookies informiert wirst, Cookies nur im Einzelfall erlaubst, die Annahme von Cookies für bestimmte Fälle oder generell ausschließt sowie das automatische Löschen der Cookies beim Schließen des Browsers aktivierst. Bei der Deaktivierung von Cookies kann die Funktionalität dieser Website eingeschränkt sein.</p>
+
+        <div class="legal-sub">4. Deine Rechte</div>
+        <p>Du hast jederzeit das Recht, unentgeltlich Auskunft über die von mir gespeicherten personenbezogenen Daten, deren Herkunft und Empfänger und den Zweck der Datenverarbeitung zu erhalten. Außerdem hast du das Recht auf Berichtigung, Sperrung oder Löschung dieser Daten.</p>
+        <p>Bei Fragen zum Datenschutz kannst du dich jederzeit unter der oben angegebenen E-Mail-Adresse an mich wenden.</p>
+
+        <div class="legal-sub">5. Änderungen dieser Datenschutzhinweise</div>
+        <p>Ich behalte mir vor, diese Datenschutzhinweise anzupassen, um sie stets den aktuellen rechtlichen Anforderungen anzupassen oder Änderungen meiner Leistungen im Datenschutz umzusetzen. Für deinen erneuten Besuch gilt dann die jeweils aktuelle Datenschutzerklärung.</p>
+
+        <div class="legal-date">Stand: Juni 2025</div>
+    </div>
+
+</section>
+
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-logo">DER BRIEF</div>
+    <div class="footer-sub">Das Soul-Musical</div>
+    <nav class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="index.html#kontakt">Kontakt</a>
+        <a href="impressum.html#impressum">Impressum</a>
+        <a href="impressum.html#datenschutz">Datenschutz</a>
+    </nav>
+    <p class="footer-copy">&copy; 2025 Förderverein Cadenza &nbsp;·&nbsp; DER BRIEF – Das Soul-Musical</p>
+</footer>
+
+<script>
+    /* Tab-Highlighting beim Scrollen */
+    const tabs = document.querySelectorAll('.section-tabs a');
+    const sections = document.querySelectorAll('.legal-section[id]');
+    const io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === `#${e.target.id}`));
+            }
+        });
+    }, { threshold: 0.4 });
+    sections.forEach(s => io.observe(s));
+</script>
+
+</body>
+</html>

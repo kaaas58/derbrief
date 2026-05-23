@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir \"c:\\\\Users\\\\lutr5\\\\58_Structure\\\\DEV\\\\DEV_websides\\\\DerBrief\\\\images\" /b)",
+      "Bash(Remove-Item \"c:\\\\Users\\\\lutr5\\\\58_Structure\\\\DEV\\\\DEV_websides\\\\DerBrief\\\\dramaturgie.html\")",
+      "PowerShell(Remove-Item \"c:\\\\Users\\\\lutr5\\\\58_Structure\\\\DEV\\\\DEV_websides\\\\DerBrief\\\\dramaturgie.html\" -Confirm:$false)"
+    ]
+  }
+}

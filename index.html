@@ -1,0 +1,2526 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Der Brief – Das Soul-Musical</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+
+        /* =============================================
+           ROOT VARIABLES – passe hier Farben & Fonts an
+           ============================================= */
+        :root {
+            --clr-bg:            #0d1321;  /* dark navy */
+            --clr-bg-alt:        #0f1929;  /* slightly lighter navy */
+            --clr-bg-card:       #16233d;  /* card navy */
+            --clr-bg-card-back:  #0a1628;  /* card back navy */
+            --clr-gold:          #6b8fc9;  /* steel blue – Hauptakzent */
+            --clr-gold-light:    #9ab8e0;  /* hell-blau */
+            --clr-red:           #c0392b;  /* rot (Spenden-Button) */
+            --clr-text:          #e8eaed;  /* fast weiß */
+            --clr-muted:         #7a90b0;  /* gedämpftes Blau-Grau */
+            --clr-border:        #1e2d44;  /* dunkle Navy-Linie */
+            --font-heading:      'Poppins', Arial, sans-serif;
+            --font-body:         'Roboto', Arial, sans-serif;
+            --transition:        0.3s ease;
+            --flip-speed:        0.65s;
+            --radius:            4px;
+        }
+
+        /* =============================================
+           RESET & BASE
+           ============================================= */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--clr-bg);
+            color: var(--clr-text);
+            font-family: var(--font-body);
+            font-weight: 300;
+            line-height: 1.75;
+        }
+
+        a { color: inherit; text-decoration: none; }
+        img { max-width: 100%; display: block; }
+
+        /* =============================================
+           NAVIGATION
+           ============================================= */
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(10, 16, 28, 0.68);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--clr-border);
+            padding: 0.8rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: padding var(--transition);
+        }
+
+        .nav.scrolled { padding: 0.5rem 2rem; }
+
+        .nav-logo {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            color: var(--clr-gold);
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.75rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.78rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--clr-muted);
+            transition: color var(--transition);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.nav-active { color: #b8d4ff; }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--clr-gold);
+            font-size: 1.6rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        /* =============================================
+           HERO
+           ============================================= */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 7rem 2rem 5rem;
+            background:
+                linear-gradient(to bottom, rgba(13,19,33,0.55) 0%, rgba(13,19,33,0.80) 100%),
+                url('images/home.png') center center / cover no-repeat;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* subtle dot pattern overlay */
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(107, 143, 201, 0.07) 1px, transparent 1px);
+            background-size: 32px 32px;
+            pointer-events: none;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.72rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--clr-gold);
+            margin-bottom: 1rem;
+        }
+
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: clamp(3.5rem, 12vw, 9rem);
+            font-weight: 300;
+            line-height: 1;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-heading);
+            font-weight: 400;
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: var(--clr-gold);
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .hero-rule {
+            width: 60px;
+            height: 1px;
+            background: var(--clr-gold);
+            margin: 1.25rem auto;
+        }
+
+        .hero-tagline {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            color: var(--clr-muted);
+            max-width: 560px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .hero-aside {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--clr-muted);
+            margin-top: 1.25rem;
+        }
+
+        /* =============================================
+           BUTTONS
+           ============================================= */
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.72rem 1.6rem;
+            border-radius: var(--radius);
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+            text-decoration: none;
+        }
+
+        .btn:hover { transform: translateY(-3px); }
+
+        .btn-primary {
+            background: var(--clr-gold);
+            color: #ffffff;
+            box-shadow: 0 4px 16px rgba(107,143,201,0.3);
+        }
+        .btn-primary:hover { background: var(--clr-gold-light); box-shadow: 0 8px 24px rgba(107,143,201,0.45); }
+
+        .btn-facebook  { background: #1877F2; color: #fff; }
+        .btn-facebook:hover  { background: #1464cc; box-shadow: 0 8px 20px rgba(24,119,242,0.35); }
+
+        .btn-whatsapp  { background: #25D366; color: #fff; }
+        .btn-whatsapp:hover  { background: #1cb855; box-shadow: 0 8px 20px rgba(37,211,102,0.35); }
+
+        .btn-contact   { background: transparent; color: var(--clr-gold); border: 1px solid var(--clr-gold); }
+        .btn-contact:hover   { background: var(--clr-gold); color: #ffffff; }
+
+        .btn-donate    { background: var(--clr-red); color: #fff; }
+        .btn-donate:hover    { background: #a02828; box-shadow: 0 8px 20px rgba(139,32,32,0.4); }
+
+        .btn-outline   { background: transparent; color: var(--clr-muted); border: 1px solid var(--clr-border); }
+        .btn-outline:hover   { border-color: var(--clr-gold); color: var(--clr-gold); }
+
+        /* =============================================
+           SECTION LAYOUT
+           ============================================= */
+        .section {
+            padding: 6rem 2rem;
+        }
+
+        .section-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--clr-gold);
+            margin-bottom: 0.6rem;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+        }
+
+        .section-title span { color: var(--clr-gold); }
+
+        .section-rule {
+            width: 50px;
+            height: 2px;
+            background: var(--clr-gold);
+            margin: 1.25rem 0 2rem;
+        }
+
+        .section-intro {
+            color: var(--clr-muted);
+            font-size: 1rem;
+            max-width: 680px;
+            margin-bottom: 3rem;
+        }
+
+        /* =============================================
+           STORY
+           ============================================= */
+        .story-bg { background: var(--clr-bg-alt); }
+
+        .story-text { max-width: 800px; }
+        .story-text p { margin-bottom: 1.5rem; font-size: 1.02rem; }
+
+        .story-quote {
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: var(--clr-gold);
+            border-left: 3px solid var(--clr-gold);
+            padding-left: 1.5rem;
+            margin: 2.5rem 0;
+            line-height: 1.6;
+        }
+
+        /* =============================================
+           FLIP CARDS
+           ============================================= */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 1.75rem;
+        }
+
+        .card-grid-sm {
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        }
+
+        /* Team: 4 Spalten, letzte Kachel (Cadenza) mittig */
+        #team .card-grid-sm {
+            grid-template-columns: repeat(4, 1fr);
+        }
+        #team .card-grid-sm .flip-card-sm:last-child {
+            grid-column: 1 / -1;
+            justify-self: center;
+            width: calc((100% - 3 * 1.75rem) / 4);
+        }
+
+        /* flip-card wrapper */
+        .flip-card {
+            height: 370px;
+            perspective: 1200px;
+            cursor: pointer;
+        }
+
+        .flip-card-sm { height: 300px; }
+
+        .flip-card-sm .card-avatar { height: 180px !important; }
+        .flip-card-sm .card-body {
+            padding: 0.5rem 0.9rem 0.5rem;
+        }
+        .flip-card-sm .card-role { margin-bottom: 0.1rem; }
+        .flip-card-sm .card-name { margin-bottom: 0.15rem; }
+        .flip-card-sm .card-hint { margin-top: 0.25rem; }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform var(--flip-speed) cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* shared face styles */
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            overflow: hidden;
+        }
+
+        /* FRONT */
+        .flip-card-front {
+            background: var(--clr-bg-card);
+            border: 1px solid var(--clr-border);
+            display: flex;
+            flex-direction: column;
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+
+        /* lift on hover (only when not flipped) */
+        .flip-card:not(.flipped):hover .flip-card-front {
+            transform: translateY(-7px);
+            box-shadow: 0 24px 48px rgba(0,0,0,0.7), 0 0 0 1px var(--clr-gold), 0 0 30px rgba(107,143,201,0.15);
+        }
+
+        /* BACK */
+        .flip-card-back {
+            background: linear-gradient(160deg, var(--clr-bg-card-back) 0%, #0a1220 100%);
+            border: 1px solid var(--clr-gold);
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            isolation: isolate;
+            overflow-y: auto;
+        }
+
+        /* card front elements */
+        .card-avatar {
+            height: 190px;
+            background: linear-gradient(135deg, #0d1a30 0%, #162240 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-heading);
+            font-size: 4.5rem;
+            color: var(--clr-gold);
+            font-weight: 900;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .card-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 1.1rem 1.25rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-role {
+            font-size: 0.68rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--clr-gold);
+            margin-bottom: 0.3rem;
+        }
+
+        .card-name {
+            font-family: var(--font-heading);
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--clr-gold);
+            margin-bottom: 0.4rem;
+        }
+
+        .card-tagline {
+            font-size: 0.83rem;
+            color: var(--clr-muted);
+            font-style: italic;
+            flex: 1;
+        }
+
+        .card-hint {
+            margin-top: 0.75rem;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--clr-gold);
+            opacity: 0.55;
+        }
+
+        /* watermark behind back-face content */
+        .cb-watermark {
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .cb-watermark img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            filter: grayscale(100%);
+            opacity: 0.07;
+        }
+
+        /* card back elements */
+        .cb-name {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            color: var(--clr-gold);
+            margin-bottom: 0.3rem;
+        }
+
+        .cb-role {
+            font-size: 0.66rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--clr-muted);
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(107,143,201,0.25);
+            margin-bottom: 0.9rem;
+        }
+
+        .cb-text {
+            font-size: 0.82rem;
+            line-height: 1.75;
+            color: var(--clr-text);
+            flex: 1;
+        }
+
+        .cb-link {
+            display: inline-block;
+            margin-top: 0.8rem;
+            font-size: 0.72rem;
+            color: var(--clr-gold);
+            letter-spacing: 1px;
+        }
+
+        .cb-link:hover { text-decoration: underline; }
+
+        .cb-close {
+            margin-top: 0.9rem;
+            font-size: 0.62rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--clr-muted);
+            text-align: center;
+            opacity: 0.55;
+        }
+
+        /* =============================================
+           CONCEPT – two-column layout
+           ============================================= */
+        .concept-bg { background: var(--clr-bg-alt); }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .concept-card {
+            background: var(--clr-bg-card);
+            border: 1px solid var(--clr-border);
+            border-top: 3px solid var(--clr-gold);
+            padding: 2rem 1.75rem;
+            border-radius: var(--radius);
+            transition: transform var(--transition);
+        }
+
+        .concept-card:hover { transform: translateY(-5px); }
+
+        .concept-icon { font-size: 2rem; margin-bottom: 1rem; }
+
+        .concept-card-title {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            color: var(--clr-gold);
+            margin-bottom: 0.75rem;
+        }
+
+        /* concept two-col */
+        .konzept-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3.5rem;
+            align-items: start;
+        }
+        .konzept-col-img {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            overflow: hidden;
+            border-radius: var(--radius);
+            margin-bottom: 1.75rem;
+        }
+        .konzept-col-img::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 13%;
+            background: linear-gradient(to top, var(--clr-bg-alt) 0%, transparent 100%);
+            pointer-events: none;
+        }
+        .konzept-col-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .konzept-col-heading {
+            font-family: var(--font-heading);
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--clr-gold);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--clr-border);
+        }
+        .konzept-col-body p {
+            font-size: 0.9rem;
+            color: var(--clr-text);
+            line-height: 1.9;
+            margin-bottom: 1rem;
+        }
+        .konzept-mittel-item {
+            font-size: 0.9rem;
+            color: var(--clr-text);
+            line-height: 1.9;
+            margin-bottom: 1rem;
+        }
+        .konzept-mittel-item strong {
+            color: var(--clr-text);
+            font-weight: 400;
+            font-size: inherit;
+        }
+        .konzept-ki-box {
+            margin-top: 1.5rem;
+            background: var(--clr-bg-card);
+            border-left: 3px solid var(--clr-gold);
+            border-radius: var(--radius);
+            padding: 1rem 1.25rem;
+            font-size: 0.88rem;
+            color: var(--clr-muted);
+            line-height: 1.8;
+        }
+        @media (max-width: 900px) {
+            .konzept-cols { grid-template-columns: 1fr; }
+        }
+
+        /* konzept flip cards */
+        .konzept-flip-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            margin-top: 6rem;
+        }
+        .konzept-flip-grid .flip-card { height: 437px; }
+        .konzept-flip-grid .flip-card .card-avatar { height: 330px; }
+        .konzept-flip-grid .flip-card .card-body { padding: 0.6rem 1.1rem 0.4rem; }
+        .konzept-flip-grid .flip-card .card-name { font-size: 1.2rem; }
+        .flip-card.flipped .cb-text-scroll {
+            overflow-y: auto;
+            flex: 1;
+            padding-right: 0.4rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--clr-border) transparent;
+        }
+        @media (max-width: 900px) {
+            .konzept-flip-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 800px) {
+            .konzept-flip-grid .flip-card { height: auto; min-height: 320px; }
+            .konzept-flip-grid .flip-card .flip-card-inner { height: 320px; }
+            .konzept-flip-grid .flip-card .card-avatar { height: 200px; }
+            .konzept-flip-grid .flip-card .card-body { padding: 0.7rem 1rem 0.9rem; }
+        }
+
+        .concept-card-text {
+            font-size: 0.88rem;
+            color: var(--clr-muted);
+            line-height: 1.8;
+        }
+
+        /* =============================================
+           SONGS ACCORDION
+           ============================================= */
+        .songs-accordion { max-width: 780px; }
+
+        .song-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 2rem;
+            margin-bottom: 0;
+        }
+
+        .song-row .song-item { flex: 1; min-width: 0; }
+
+        .song-play {
+            flex-shrink: 0;
+            background: none;
+            border: none;
+            color: var(--clr-gold);
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 1.1rem 0;
+            line-height: 1;
+            opacity: 1;
+            transition: color var(--transition), transform var(--transition), opacity 0.25s ease;
+        }
+
+        .song-play:hover { color: var(--clr-text); transform: scale(1.2); }
+
+        .song-row:has(.song-header.active) .song-play {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .song-item {
+            border: 1px solid var(--clr-border);
+            border-radius: var(--radius);
+            margin-bottom: 0.6rem;
+            overflow: hidden;
+        }
+
+        .song-header {
+            width: 100%;
+            padding: 1.1rem 1.5rem;
+            background: var(--clr-bg-card);
+            border: none;
+            color: var(--clr-text);
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            transition: background var(--transition);
+        }
+
+        .song-thumb {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            height: 100%;
+            width: auto;
+            max-width: 90px;
+            border-radius: 0;
+            object-fit: cover;
+            object-position: center top;
+            opacity: 0.85;
+            pointer-events: none;
+        }
+
+        .song-play-overlay {
+            position: absolute;
+            z-index: 2;
+            width: 3.4rem;
+            height: 3.4rem;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.28);
+            border: 2px solid rgba(255, 255, 255, 0.65);
+            color: #fff;
+            font-size: 0.95rem;
+            padding-left: 3px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s ease, background 0.2s;
+        }
+
+        .song-body.open .song-play-overlay {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .song-play-overlay:hover {
+            background: rgba(0, 0, 0, 0.55);
+        }
+
+        .song-header:hover { background: #1a2840; }
+
+        .song-header.active {
+            background: #0e1c35;
+            color: var(--clr-gold);
+        }
+
+        .song-toggle {
+            font-size: 1.3rem;
+            color: var(--clr-gold);
+            transition: transform 0.3s;
+            flex-shrink: 0;
+        }
+
+        .song-header.active .song-toggle { transform: rotate(45deg); }
+
+        .song-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.55s ease;
+            position: relative;
+        }
+
+        .song-body.open { max-height: 1600px; }
+
+        .song-img {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .song-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+            opacity: 0.13;
+        }
+
+        .song-lyrics {
+            position: relative;
+            z-index: 1;
+            padding: 1.5rem 2rem;
+            background: transparent;
+            font-style: italic;
+            color: var(--clr-muted);
+            font-size: 0.88rem;
+            line-height: 2;
+            border-top: 1px solid var(--clr-border);
+            white-space: pre-line;
+            font-family: var(--font-body);
+        }
+
+        /* =============================================
+           SUPPORTERS
+           ============================================= */
+        .supporters-bg { background: var(--clr-bg-alt); }
+
+        .supporters-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3.5rem;
+            align-items: start;
+        }
+
+        .supporters-img {
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+        .supporters-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            opacity: 0.88;
+            border-radius: var(--radius);
+        }
+
+        .supporters-list-wrap {
+            display: flex;
+            flex-direction: column;
+        }
+        .supporters-names {
+            columns: 2;
+            column-gap: 1.5rem;
+            list-style: none;
+            margin-bottom: 1.75rem;
+        }
+        .supporters-names li {
+            font-size: 0.88rem;
+            color: var(--clr-muted);
+            padding: 0.28rem 0;
+            border-bottom: 1px solid rgba(30,45,68,0.6);
+            break-inside: avoid;
+            transition: color var(--transition);
+        }
+        .supporters-names li:hover { color: var(--clr-text); }
+
+        .supporter-featured {
+            border: 1px solid var(--clr-gold);
+            border-radius: var(--radius);
+            padding: 0.65rem 1.1rem;
+            font-family: var(--font-heading);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--clr-gold);
+            letter-spacing: 0.5px;
+            display: inline-block;
+        }
+
+        @media (max-width: 900px) {
+            .supporters-split { grid-template-columns: 1fr; }
+            .supporters-names { columns: 2; }
+        }
+        @media (max-width: 500px) {
+            .supporters-names { columns: 1; }
+        }
+
+        /* Mobile: Unterstützer-Liste zentriert + aufklappbar */
+        @media (max-width: 800px) {
+            .supporters-names { columns: 1; text-align: center; }
+            .supporters-names li { border-bottom: none; padding: 0.32rem 0; }
+
+            .supporters-names-wrap {
+                position: relative;
+                max-height: 8rem;
+                overflow: hidden;
+                transition: max-height 0.55s ease;
+            }
+            .supporters-names-wrap::after {
+                content: '';
+                position: absolute;
+                bottom: 0; left: 0; right: 0;
+                height: 3.5rem;
+                background: linear-gradient(to top, var(--clr-bg-alt) 0%, transparent 100%);
+                pointer-events: none;
+                transition: opacity 0.3s ease;
+            }
+            .supporters-names-wrap.open {
+                max-height: 2000px;
+            }
+            .supporters-names-wrap.open::after { opacity: 0; }
+
+            .supporters-expand-btn {
+                margin: 0.5rem auto 1.25rem;
+                background: none;
+                border: 2px solid var(--clr-accent);
+                border-radius: 50%;
+                width: 2.4rem;
+                height: 2.4rem;
+                color: var(--clr-gold);
+                cursor: pointer;
+                transition: transform 0.35s ease, border-color 0.25s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .supporters-expand-btn::before {
+                content: '';
+                display: block;
+                width: 0.55rem;
+                height: 0.55rem;
+                border-right: 2px solid var(--clr-gold);
+                border-bottom: 2px solid var(--clr-gold);
+                transform: rotate(45deg) translateY(-2px);
+            }
+            .supporters-expand-btn:hover { border-color: var(--clr-gold); }
+            .supporters-expand-btn.open { transform: rotate(180deg); }
+        }
+        @media (min-width: 801px) {
+            .supporters-expand-btn { display: none; }
+        }
+
+        .supporters-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            max-width: 900px;
+        }
+
+        .supporter-tag {
+            background: var(--clr-bg-card);
+            border: 1px solid var(--clr-border);
+            padding: 0.38rem 0.85rem;
+            font-size: 0.8rem;
+            color: var(--clr-muted);
+            border-radius: 2px;
+            transition: border-color var(--transition), color var(--transition);
+        }
+
+        .supporter-tag:hover {
+            border-color: var(--clr-gold);
+            color: var(--clr-text);
+        }
+
+        .supporter-tag.featured {
+            border-color: var(--clr-gold);
+            color: var(--clr-gold);
+        }
+
+        /* =============================================
+           DONATION BANNER
+           ============================================= */
+        .donation-banner {
+            background:
+                linear-gradient(135deg, rgba(30,50,100,0.4) 0%, rgba(13,19,33,0) 60%),
+                var(--clr-bg);
+            border-top: 1px solid var(--clr-border);
+            border-bottom: 1px solid var(--clr-border);
+        }
+
+        .donation-inner {
+            max-width: 900px;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .donation-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2.5rem 0 2rem;
+            text-align: left;
+        }
+
+        .donation-card {
+            display: block;
+            border: 1px solid var(--clr-border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+            color: inherit;
+            text-decoration: none;
+        }
+        .donation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+            border-color: var(--clr-gold);
+        }
+
+        .donation-card img {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+            display: block;
+            transition: filter 0.25s ease;
+        }
+        .donation-card:hover img { filter: brightness(1.08); }
+
+        .donation-card-caption {
+            padding: 0.9rem 1.1rem;
+            background: var(--clr-bg-card);
+            font-family: var(--font-heading);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--clr-gold);
+            border-top: 1px solid var(--clr-border);
+        }
+
+        @media (max-width: 600px) {
+            .donation-cards { grid-template-columns: 1fr; }
+        }
+
+        /* =============================================
+           FEEDBACK
+           ============================================= */
+        .feedback-bg { background: var(--clr-bg-alt); }
+
+        .rating-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+            margin: 1.5rem 0;
+        }
+
+        .rating-btn {
+            padding: 0.55rem 1.15rem;
+            background: var(--clr-bg-card);
+            border: 1px solid var(--clr-border);
+            color: var(--clr-muted);
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 0.82rem;
+            border-radius: var(--radius);
+            transition: background var(--transition), border-color var(--transition), color var(--transition);
+        }
+
+        .rating-btn:hover,
+        .rating-btn.selected {
+            background: var(--clr-gold);
+            border-color: var(--clr-gold);
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .feedback-thanks {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem 1.5rem;
+            background: rgba(107,143,201,0.08);
+            border: 1px solid var(--clr-gold);
+            color: var(--clr-gold);
+            font-style: italic;
+            border-radius: var(--radius);
+            font-size: 1rem;
+        }
+
+        /* =============================================
+           FOOTER
+           ============================================= */
+        .footer {
+            background: #080e1c;
+            border-top: 1px solid var(--clr-border);
+            padding: 1.75rem 2rem 0.75rem;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--clr-gold);
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        .footer-sub {
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--clr-muted);
+            margin-bottom: 1.25rem;
+        }
+
+        .footer-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .footer-nav a {
+            font-size: 0.78rem;
+            color: var(--clr-muted);
+            letter-spacing: 0.5px;
+            transition: color var(--transition);
+        }
+
+        .footer-nav a:hover { color: var(--clr-gold); }
+
+        .footer-copy {
+            font-size: 0.72rem;
+            color: #474747;
+            margin-top: 0.75rem;
+        }
+
+        /* =============================================
+           SCROLL REVEAL
+           ============================================= */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* =============================================
+           RESPONSIVE
+           ============================================= */
+        @media (max-width: 880px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0; right: 0;
+                background: rgba(10, 16, 28, 0.99);
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 1.5rem 2rem;
+                gap: 1.25rem;
+                border-bottom: 1px solid var(--clr-border);
+            }
+
+            .nav-links.open { display: flex; }
+            .nav-toggle { display: block; }
+        }
+
+        @media (max-width: 800px) {
+            .card-grid,
+            .card-grid-sm { grid-template-columns: 1fr; }
+
+            #team .card-grid-sm { grid-template-columns: repeat(2, 1fr); }
+            #team .card-grid-sm .flip-card-sm:last-child {
+                width: calc((100% - 1.75rem) / 2);
+            }
+
+            .flip-card { height: auto; min-height: 320px; }
+            .flip-card-sm { min-height: 280px; height: auto; }
+            .flip-card-inner { height: 320px; }
+            .flip-card-sm .flip-card-inner { height: 280px; }
+
+            .section { padding: 4rem 1.25rem; }
+
+            .btn-group { flex-direction: column; align-items: center; }
+            .btn { width: 100%; max-width: 300px; justify-content: center; }
+
+            .concept-grid { grid-template-columns: 1fr; }
+
+            .hero { padding: 6rem 1.25rem 4rem; }
+
+            /* Kacheln: Text ~4% kleiner, Mehr-erfahren ausblenden */
+            .card-role    { font-size: 0.63rem; }
+            .card-name    { font-size: 1.06rem; }
+            .card-tagline { font-size: 0.77rem; }
+            .card-hint    { display: none; }
+        }
+
+
+        /* =============================================
+           BACKDROP – erscheint wenn Kachel offen ist
+           ============================================= */
+        .card-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(8, 14, 28, 0.82);
+            z-index: 800;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            animation: backdropIn 0.2s ease;
+        }
+
+        .card-backdrop.open { display: block; }
+
+        @keyframes backdropIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        /* =============================================
+           FLIP CARD – zentriert & vergrößert wenn offen
+           ============================================= */
+        .flip-card.flipped {
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            /* translate + flip auf einer Achse kombinieren */
+            transform: translate(-50%, -50%) !important;
+            width: min(520px, 92vw) !important;
+            height: 520px !important;
+            z-index: 900;
+            cursor: pointer;
+        }
+
+        /* Flip-Animation läuft auf dem Inner weiter */
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+            height: 100%;
+        }
+
+        /* Rückseite: mehr Platz, größere Schrift */
+        .flip-card.flipped .flip-card-back {
+            padding: 2.25rem 2rem;
+        }
+
+        .flip-card.flipped .cb-name {
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .flip-card.flipped .cb-role {
+            font-size: 0.72rem;
+            padding-bottom: 1rem;
+            margin-bottom: 1.1rem;
+        }
+
+        .flip-card.flipped .cb-text {
+            font-size: 0.95rem;
+            line-height: 1.85;
+        }
+
+        .flip-card.flipped .cb-link {
+            font-size: 0.82rem;
+            margin-top: 1rem;
+        }
+
+        .flip-card.flipped .cb-close {
+            font-size: 0.7rem;
+            margin-top: 1.25rem;
+        }
+
+        /* =============================================
+           STORY – Bild links, Text rechts
+           ============================================= */
+        .story-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .story-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: var(--radius);
+            display: block;
+        }
+
+        /* =============================================
+           CAST – 3 Kacheln, space-between, größer
+           ============================================= */
+        .cast-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+        }
+
+        .cast-grid .flip-card {
+            height: 430px;
+        }
+
+        .cast-grid .flip-card .card-avatar {
+            height: 290px;
+        }
+        .cast-grid .flip-card .card-body {
+            padding: 0.6rem 1rem 0.7rem;
+        }
+        .cast-grid .flip-card .card-role { margin-bottom: 0.15rem; }
+        .cast-grid .flip-card .card-name { margin-bottom: 0.2rem; }
+        .cast-grid .flip-card .card-hint { margin-top: 0.4rem; }
+
+        /* =============================================
+           BAND – 3 + 2 Reihen, zentriert, space-between
+           ============================================= */
+        .band-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 2.5rem;
+        }
+
+        .band-grid .flip-card {
+            height: 430px;
+        }
+
+        .band-grid .flip-card .card-avatar {
+            height: 280px;
+        }
+        .band-grid .flip-card .card-body {
+            padding: 0.6rem 1rem 0.7rem;
+        }
+        .band-grid .flip-card .card-role { margin-bottom: 0.15rem; }
+        .band-grid .flip-card .card-name { margin-bottom: 0.2rem; }
+        .band-grid .flip-card .card-hint { margin-top: 0.4rem; }
+
+        /* Reihe 1: 3 Kacheln */
+        .band-grid .flip-card:nth-child(1) { grid-column: 1 / 3; }
+        .band-grid .flip-card:nth-child(2) { grid-column: 3 / 5; }
+        .band-grid .flip-card:nth-child(3) { grid-column: 5 / 7; }
+
+        /* Reihe 2: 2 Kacheln zentriert */
+        .band-grid .flip-card:nth-child(4) { grid-column: 2 / 4; }
+        .band-grid .flip-card:nth-child(5) { grid-column: 4 / 6; }
+
+        /* =============================================
+           RESPONSIVE ANPASSUNGEN
+           ============================================= */
+        @media (max-width: 900px) {
+            /* Story: Bild oben, Text unten, zentriert */
+            .story-layout {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .story-img img {
+                max-height: 340px;
+                object-position: center top;
+            }
+
+            .story-quote {
+                text-align: left;
+            }
+
+            /* Cast: 1 Spalte */
+            .cast-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cast-grid .flip-card { height: 390px; }
+            .cast-grid .flip-card .card-avatar { height: 210px; }
+
+            /* Band: 4-Spalten-Raster → 2+2+1 zentriert */
+            .band-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 0.75rem 2.5rem;
+            }
+
+            .band-grid .flip-card:nth-child(n) { grid-column: span 2; }
+            .band-grid .flip-card:nth-child(5)  { grid-column: 2 / 4; }
+
+            .band-grid .flip-card { height: 390px; }
+            .band-grid .flip-card .card-avatar { height: 210px; }
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav class="nav" id="mainNav">
+    <a href="#hero" class="nav-logo">DER BRIEF</a>
+
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#story">Story</a></li>
+        <li><a href="#cast">Besetzung</a></li>
+        <li><a href="#band">Band</a></li>
+        <li><a href="#konzept">Konzept</a></li>
+        <li><a href="#songs">Songs</a></li>
+        <li><a href="#team">Team</a></li>
+        <li><a href="#spenden">Spenden</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Menü öffnen">&#9776;</button>
+</nav>
+
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero" id="hero">
+    <h1 class="hero-title">DER BRIEF</h1>
+    <div class="hero-subtitle">das Soul-Musical …</div>
+    <div class="hero-rule"></div>
+    <p class="hero-tagline">
+        … wird Dich berühren!<br>
+        Werde Teil dieses spannenden Projekts mit einer begeisternden Soul-Funk-Band!
+    </p>
+
+
+</section>
+
+
+<!-- ============================================================
+     DIE STORY
+     ============================================================ -->
+<section class="section story-bg" id="story">
+    <div class="section-inner">
+        <div class="reveal">
+            <div class="section-label">Das Musical</div>
+            <h2 class="section-title">Die Story <span>DER BRIEF</span></h2>
+            <div class="section-rule"></div>
+        </div>
+
+        <div class="story-layout reveal">
+            <div class="story-img">
+                <img src="images/brief.png" alt="Der Brief – das Soul-Musical">
+            </div>
+            <div class="story-text">
+                <p>Eine bewegende Geschichte über Stolz, Fall und die heilende Kraft bedingungsloser Liebe.</p>
+                <p>
+                    Runa, eine brillante junge Ärztin mit einer liebevollen Kindheit, verlässt das sichere Leben an der Seite
+                    ihres Vaters, um sich auf eine vielversprechende Karriere im Showbusiness einzulassen. Sie fordert ihr Erbe
+                    ein, investiert alles – und erlebt einen kometenhaften Aufstieg in eine Welt des Reichtums, der Anerkennung
+                    und des Glanzes.
+                </p>
+
+                <blockquote class="story-quote">
+                    Doch der Traum zerbricht: Betrug, Insolvenz, Liebesverlust.
+                </blockquote>
+
+                <p>
+                    Verloren, beschämt und am Abgrund ihrer Existenz findet Runa in ihrer leergeräumten Wohnung einen alten Brief
+                    ihres Vaters – ungeöffnet …
+                </p>
+                <p>
+                    <strong style="color:var(--clr-gold)">DER BRIEF</strong> ist eine kraftvolle Geschichte über das Menschsein,
+                    die Sehnsucht nach Zugehörigkeit – und die Frage, was bleibt, wenn man alles verspielt hat.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================================================
+     BESETZUNG / SCHAUSPIELER
+     ============================================================ -->
+<section class="section" id="cast">
+    <div class="section-inner">
+        <div class="reveal">
+            <div class="section-label">Besetzung</div>
+            <h2 class="section-title">Die Stimmen und <span>Schauspieler</span></h2>
+            <div class="section-rule"></div>
+            <p class="section-intro">Klicke auf eine Kachel, um mehr über den jeweiligen Künstler zu erfahren.</p>
+        </div>
+
+        <div class="cast-grid reveal">
+
+            <!-- ── Antonia Schnauber ── -->
+            <div class="flip-card" role="button" aria-label="Antonia Schnauber">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-avatar"><img src="images/antonia.png" alt="Antonia Schnauber"></div>
+                        <div class="card-body">
+                            <div class="card-role">Runa</div>
+                            <div class="card-name">Antonia Schnauber</div>
+                            <div class="card-tagline">„Runa ist keine Rolle. Sie ist ein Mensch."</div>
+                            <div class="card-hint">↻ Mehr erfahren</div>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="cb-name">Antonia Schnauber</div>
+                        <div class="cb-role">Runa · Buch &amp; Regie</div>
+                        <div class="cb-text">
+                            Ihre Reise führt vom Licht der Kindheit über den Glanz des Erfolgs in die Tiefe des Verlusts –
+                            und zurück ins Herz der Liebe und Gnade.<br><br>
+                            University of London, Master in Cultural Studies.<br><br>
+                            2004 Schauspieldiplom an der Academy of Live and Recorded Arts in London.<br><br>
+                            Theaterengagements und internationale Kulturprojekte in Großbritannien und Deutschland.
+                        </div>
+                        <a href="https://antonia-schnauber.com" target="_blank" rel="noopener" class="cb-link">→ antonia-schnauber.com</a>
+                        <div class="cb-close">↻ Zurückdrehen</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Matthias Gutendorf ── -->
+            <div class="flip-card" role="button" aria-label="Matthias Gutendorf">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-avatar"><img src="images/mathias.png" alt="Matthias Gutendorf"></div>
+                        <div class="card-body">
+                            <div class="card-role">Scroony</div>
+                            <div class="card-name">Matthias Gutendorf</div>
+                            <div class="card-tagline">Charmeur, Verführer und Wegbereiter</div>
+                            <div class="card-hint">↻ Mehr erfahren</div>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="cb-name">Matthias Gutendorf</div>
+                        <div class="cb-role">Scroony · Dramaturgische Begleitung</div>
+                        <div class="cb-text">
+                            Scroony ist Charmeur, Verführer und Wegbereiter zugleich. Mit Witz, Eleganz und großen Visionen
+                            spricht er Runas Sehnsucht nach Selbstverwirklichung, Freiheit und Unabhängigkeit an.<br><br>
+                            „Ich liebe Musik, habe ein Herz für Dramaturgie und zu meiner Grundüberzeugung zählt, dass die
+                            Liebe Gottes zu den Menschen das zentralste Thema überhaupt ist. Aus diesen Gründen bin ich Teil
+                            dieses formidablen Projektes geworden."
+                        </div>
+                        <div class="cb-close">↻ Zurückdrehen</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── NN – Der Vater ── -->
+            <div class="flip-card" role="button" aria-label="Der Vater">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-avatar"><img src="images/nn.png" alt="NN – Der Vater"></div>
+                        <div class="card-body">
+                            <div class="card-role">Der Vater</div>
+                            <div class="card-name">NN</div>
+                            <div class="card-tagline">Das emotionale Zentrum der Geschichte</div>
+                            <div class="card-hint">↻ Mehr erfahren</div>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="cb-name">Der Vater</div>
+                        <div class="cb-role">Tragende Hauptfigur</div>
+                        <div class="cb-text">
+                            Der Vater fungiert als tragende Hauptfigur der Geschichte. Seine wartende Liebe bildet das
+                            emotionale Zentrum, auch wenn er dramaturgisch bewusst in den Hintergrund steht.<br><br>
+                            Musikalisch und szenisch bleibt seine Präsenz jedoch durchgehend tragend.
+                        </div>
+                        <div class="cb-close">↻ Zurückdrehen</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================================================
+     DIE BAND
+     ============================================================ -->
+<section class="section story-bg" id="band">
+    <div class="section-inner">
+        <div class="reveal">
+            <div class="section-label">Live-Musik</div>
+            <h2 class="section-title">Die <span>Band</span></h2>
+            <div class="section-rule"></div>
+            <p class="section-intro">Soul, Funk und Jazzrock – live auf der Bühne. Klicke auf eine Kachel für mehr Details.</p>
+        </div>
+
+        <div class="band-grid reveal">
+
+            <!-- ── Lukas Frings ── -->
+            <div class="flip-card" role="button" aria-label="Lukas Frings">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-avatar"><img src="images/lukas_frings.png" alt="Lukas Frings"></div>
+                        <div class="card-body">
+                            <div class="card-role">Keyboard</div>
+                            <div class="card-name">Lukas Frings</div>
+                            <div class="card-tagline">Keys &amp; Harmonik</div>
+                            <div class="card-hint">↻ Mehr erfahren</div>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="cb-name">Lukas Frings</div>
+                        <div class="cb-role">Keyboard</div>
+                        <div class="cb-text">
+                            Lukas Frings am Keyboard – harmonisches Rückgrat und klanglicher Farbenträger der Band.
+                        </div>
+                        <div class="cb-close">↻ Zurückdrehen</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Axel Rudolf Trapp ── -->
+            <div class="flip-card" role="button" aria-label="Axel Rudolf Trapp">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-avatar"><img src="images/axel_rudolf_trapp.png" alt="Axel Rudolf Trapp"></div>
+                        <div class="card-body">
+                            <div class="card-role">E-Bass</div>
+                            <div class="card-name">Axel Rudolf Trapp</div>
+                            <div class="card-tagline">Idee, Konzept &amp; künstlerische Entwicklung</div>
+                            <div class="card-hint">↻ Mehr erfahren</div>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="cb-name">Axel Rudolf Trapp</div>
+                        <div class="cb-role">E-Bass · Gründer &amp; Ideengeber</div>
+                        <div class="cb-text">
+                            Seit über zwanzig Jahren dreht sich bei mir vieles um den Bass – auf der Bühne, im Studio,
+                            im Proberaum. Musikalisch zwischen Soul, Funk und Jazzrock.<br><br>
+                            Aktuell mit den Bands StaxMasters und WANTED unterwegs. Genaues Timing, stilistische Offenheit
+                            und ein Gefühl für Dramaturgie gehören für mich einfach dazu.<br><br>
+                            „Ich liebe den Bass und bin sehr glücklich und dankbar, mich hier in unserem Musical damit
+                            einbringen zu können!"
+                        </div>
+                        <a href="ueber-mich.html" class="cb-link" onclick="event.stopPropagation()">→ Mehr über Axel</a>
+                        <div class="cb-close">↻ Zurückdrehen</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Martin Kuske ── -->
+            <div class="flip-card" role="button" aria-label="Martin Kuske">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-avatar"><img src="images/martin_kurse.png" alt="Martin Kuske"></div>
+                        <div class="card-body">
+                            <div class="card-role">Saxophon</div>
+                            <div class="card-name">Martin Kuske</div>
+                            <div class="card-tagline">Soul Food Company · StaxMasters</div>
+                            <div class="card-hint">↻ Mehr erfahren</div>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="cb-name">Martin Kuske</div>
+                        <div class="cb-role">Saxophon</div>
+                        <div class="cb-text">
+                            Aus Remscheid, leidenschaftlicher Saxophonist. Soul Food Company (Düsseldorf) &amp; StaxMasters
+                            (Wuppertal).<br><br>
+                            Als Zahntechnikermeister verbindet er Präzision mit Klangästhetik. Seit 2024 produziert er
+                            hochwertige Saxophonmundstücke unter dem Namen TooSaxy.
+                        </div>
+                        <a href="https://www.too-saxy.de" target="_blank" rel="noopener" class="cb-link">→ too-saxy.de</a>
+                        <div class="cb-close">↻ Zurückdrehen</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Galal Marzouk ── -->
+            <div class="flip-card" role="button" aria-label="Galal Marzouk">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-avatar"><img src="images/galal_marzouk.png" alt="Galal Marzouk"></div>
+                        <div class="card-body">
+                            <div class="card-role">E-Gitarre</div>
+                            <div class="card-name">Galal Marzouk</div>
+                            <div class="card-tagline">Soul · Funk · Jazzrock · Elektropop</div>
+                            <div class="card-hint">↻ Mehr erfahren</div>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="cb-name">Galal Marzouk</div>
+                        <div class="cb-role">E-Gitarre</div>
+                        <div class="cb-text">
+                            Musik gehört für mich schon immer zum Leben dazu. Die Gitarre hat mich früh gepackt und
+                            ein Leben lang begleitet – über Musikstudium, Musiklehrer und viele Bandprojekte.<br><br>
+                            Aktuell in der Pop-Rock-Band „Wolken Kino" und dem Elektropop-Projekt „Yjuna".<br><br>
+                            „Bei DER BRIEF kommt alles zusammen: Musik, Video und Bühne greifen ineinander. Musik ist kein
+                            Beiwerk, sondern Teil der Erzählung."
+                        </div>
+                        <div class="cb-close">↻ Zurückdrehen</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Micha Schank ── -->
+            <div class="flip-card" role="button" aria-label="Micha Schank">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-avatar"><img src="images/micha_schank.png" alt="Micha Schank"></div>
+                        <div class="card-body">
+                            <div class="card-role">Schlagzeug &amp; Percussion</div>
+                            <div class="card-name">Micha Schank</div>
+                            <div class="card-tagline">Jazz · Funk · Soul</div>
+                            <div class="card-hint">↻ Mehr erfahren</div>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="cb-name">Micha Schank</div>
+                        <div class="cb-role">Schlagzeug &amp; Percussion</div>
+                        <div class="cb-text">
+                            Als Jugendlicher mit dem Schlagzeug angefangen. Experimentelle Musik und Studioarbeit,
+                            danach Studium an der Glen Buschmann Jazzakademie Dortmund.<br><br>
+                            Diverse Projekte mit viel Auftritts-erfahrung im Jazz-, Funk- und Soulbereich.<br><br>
+                            „Die Mitarbeit an DER BRIEF ist für mich eine großartige Möglichkeit, an einem Gesamtkonzept
+                            kreativ und künstlerisch mitzuarbeiten – und ich arbeite immer gerne mit tollen, lieben Menschen."
+                        </div>
+                        <div class="cb-close">↻ Zurückdrehen</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================================================
+     KÜNSTLERISCHES KONZEPT
+     ============================================================ -->
+<section class="section concept-bg" id="konzept">
+    <div class="section-inner">
+        <div class="reveal">
+            <div class="section-label">Der Brief</div>
+            <h2 class="section-title"><span>Künstlerisches </span><span style="color:var(--clr-text)">Konzept</span></h2>
+            <div class="section-rule"></div>
+        </div>
+
+        <div class="konzept-cols reveal">
+
+            <!-- ── Linke Spalte: Anspruch & Inhalt ── -->
+            <div class="konzept-col">
+                <div class="konzept-col-img">
+                    <img src="images/künstlerische_konzept.png" alt="Künstlerisches Konzept – Anspruch und Inhalt">
+                </div>
+                <div class="konzept-col-heading">Anspruch &amp; Inhalt</div>
+                <div class="konzept-col-body">
+                    <p>Das Musical DER BRIEF verbindet Musik, Schauspiel, Videokunst und Choreographie zu einem intensiven Gesamtkunstwerk. Es ist keine klassische Unterhaltungsshow, sondern eine künstlerische Auseinandersetzung mit den Themen bedingungslose Liebe, Schuld und Gnade.</p>
+                    <p>Im Mittelpunkt steht die Geschichte von Runa, einer jungen Frau, die ihren Vater verrät: Sie fordert ihr Erbe, wendet sich von ihm ab und verlässt ihr Zuhause, um ihr vermeintliches Glück in Selbstverwirklichung, Ruhm und Erfolg zu suchen. In ihrer Jagd nach Anerkennung verliert sie alles – Besitz, Beziehungen, Sinn. Am Tiefpunkt ihres Lebens, in völliger Leere, stößt sie auf einen Brief ihres Vaters.</p>
+                    <p>Damit legt das Stück den Fokus nicht auf äußere Dramatik, sondern auf die innere Transformation der Protagonistin: vom Verrat und Stolz hin zur überwältigenden Erfahrung von Gnade.</p>
+                    <p>DER BRIEF erhebt den Anspruch, keine einfache Geschichte zu illustrieren, sondern ein existenzielles Erleben zu ermöglichen. Das Publikum soll nicht nur zuschauen, sondern den Weg der Protagonistin innerlich mitgehen: vom Verrat über Zusammenbruch bis hin zur befreienden Erfahrung unverdienter Liebe.</p>
+                    <p>Die interdisziplinäre Gestaltung – Musik, Videokunst, Bewegung – verstärkt diese Wirkung und macht die Aufführung zu einem Gesamterlebnis, das ästhetisch wie inhaltlich über reine Unterhaltung hinausweist.</p>
+                </div>
+            </div>
+
+            <!-- ── Rechte Spalte: Künstlerische Mittel ── -->
+            <div class="konzept-col">
+                <div class="konzept-col-img">
+                    <img src="images/künstlerische_konzept2.png" alt="Künstlerisches Konzept – Künstlerische Mittel">
+                </div>
+                <div class="konzept-col-heading">Künstlerische Mittel</div>
+                <div class="konzept-col-body">
+                    <p class="konzept-mittel-item"><strong>Musik:</strong> Soulmusik in kleiner Besetzung (Drums, E-Bass, Saxophon, E-Gitarre, Keyboard) schafft Nähe, Direktheit und Emotionalität. Jeder Song ist nicht Beiwerk, sondern Träger von Handlung und innerem Erleben.</p>
+                    <p class="konzept-mittel-item"><strong>Videokunst:</strong> Eine Künstlerin gestaltet eigenständige Videoprojektionen, die das Bühnenbild bilden. So entsteht eine minimalistische, zugleich kraftvolle Bildsprache, die Erinnerungen, Sehnsucht und innere Zustände visualisiert.</p>
+                    <p class="konzept-mittel-item"><strong>Choreografie:</strong> Die Choreografie entwickelt Bewegungssequenzen, die das körperliche Erleben von Spannung, Einsamkeit, Aufbruch und Versöhnung verdichten und den musikalischen Ausdruck verstärken.</p>
+                    <p class="konzept-mittel-item"><strong>Reduktion &amp; Symbolik:</strong> Die Bühne bleibt oft bewusst leer, wodurch zentrale Objekte – insbesondere der Brief – ihre volle symbolische Kraft entfalten können.</p>
+                    <div class="konzept-ki-box">
+                        In unserem Musical nutzen wir Künstliche Intelligenz als Inspirationsquelle. Sie liefert uns musikalische Skizzen – Strukturen, Akkordfolgen, erste Ideen. Doch diese sind noch nicht mehr als eine technologische Hülle. Erst durch uns Musikerinnen und Musiker entsteht lebendige Musik: Wir interpretieren, formen und färben die Vorlagen, wir geben ihnen Dynamik, Ausdruck und Klang. Unsere Kreativität, unsere Authentizität und unsere persönliche Handschrift verwandeln Daten in Emotion. So wird die KI nicht zum Ersatz von Kunst, sondern zu einem Werkzeug, das uns neue Räume eröffnet – Räume, die wir mit Seele füllen.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ── Dramaturgie & Arrangement Flip-Kacheln ── -->
+        <div class="konzept-flip-grid reveal">
+
+            <!-- Dramaturgie -->
+            <div class="flip-card" role="button" aria-label="Dramaturgie">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-avatar"><img src="images/dramaturgie.png" alt="Dramaturgie"></div>
+                        <div class="card-body">
+                            <div class="card-role">Aufbau &amp; Struktur</div>
+                            <div class="card-name">Dramaturgie</div>
+                            <div class="card-hint">↻ Mehr erfahren</div>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="cb-name">Dramaturgie</div>
+                        <div class="cb-role">Aufbau &amp; emotionale Struktur</div>
+                        <div class="cb-text cb-text-scroll">
+                            „DER BRIEF" ist als durchkomponiertes Musical mit szenischen Dialogen angelegt, in dem Gesang, Schauspiel, Tanz und Live-Musik gleichwertig ineinandergreifen.<br><br>
+                            Die Dramaturgie folgt einer klaren emotionalen Bewegung: Innerlichkeit – Verführung – Überwältigung – Leere – Rückbindung.<br><br>
+                            Die Handlung wird überwiegend musikalisch erzählt: Songs ersetzen innere Monologe, Konflikte und Wendepunkte, während gesprochene Szenen gezielt zur Zuspitzung und Charakterzeichnung eingesetzt werden. Instrumentale Passagen und Tanzsequenzen verbinden Szenen, verdichten Stimmungen und markieren Übergänge (Erinnerung, Rausch, Bruch, Erkenntnis).<br><br>
+                            Visuelle Motive (Videoprojektion, Licht, Kostümwechsel) begleiten die Dramaturgie als emotionale Kommentarebene, nicht als Illustration. Wiederkehrende musikalische Themen spiegeln Entwicklung und innere Zustände der Figuren.<br><br>
+                            Der Vater ist dramaturgisch bewusst oft randständig oder im Hintergrund präsent – musikalisch und szenisch – bleibt aber stets als tragendes Zentrum sichtbar. Die Bühne fungiert dabei weniger als realistischer Ort, sondern als innerer Raum der Hauptfigur.<br><br>
+                            Das Konzept setzt auf Reduktion im Realismus und Verdichtung in der Emotion: Wenige zentrale Figuren, klare Bilder, starke musikalische Bögen. Ziel ist ein intensives, zeitloses Musiktheater, das innere Prozesse erlebbar macht.
+                        </div>
+                        <div class="cb-close">↻ Zurückdrehen</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Das Arrangement -->
+            <div class="flip-card" role="button" aria-label="Das Arrangement">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-avatar"><img src="images/das_arrangement.png" alt="Das Arrangement"></div>
+                        <div class="card-body">
+                            <div class="card-role">Musik &amp; KI</div>
+                            <div class="card-name">Das Arrangement</div>
+                            <div class="card-hint">↻ Mehr erfahren</div>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="cb-name">Das Arrangement</div>
+                        <div class="cb-role">Musik &amp; Künstliche Intelligenz</div>
+                        <div class="cb-text cb-text-scroll">
+                            Unser Musical erzählt eine tiefgründige menschliche Geschichte. Idee, Dramaturgie, Texte und Bühnenbild entstehen vollständig aus individueller künstlerischer Arbeit.<br><br>
+                            In der Musik nutzen wir Künstliche Intelligenz als kreatives Werkzeug. Sie liefert uns musikalische Skizzen – Strukturen, Akkordfolgen, erste Impulse. Doch diese bleiben bewusst roh. Erst durch unsere Interpretation werden sie zu Musik.<br><br>
+                            Wir adaptieren, arrangieren und gestalten die Vorlagen mit unserer persönlichen Handschrift. In intensiver Probenarbeit werden sie geprüft, verändert, verdichtet und verfeinert. Klänge reifen, Spannungen entstehen, Emotionen schärfen sich. So wächst Schritt für Schritt eine eigenständige Partitur, getragen von unseren Erfahrungen und unserer künstlerischen Identität.<br><br>
+                            KI ist kein Ersatz von Kunst, sondern ein Werkzeug, das uns neue Räume eröffnet – Räume, die wir mit Seele füllen.
+                        </div>
+                        <div class="cb-close">↻ Zurückdrehen</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ============================================================
+     SONGBEISPIELE
+     ============================================================ -->
+<section class="section" id="songs">
+    <div class="section-inner">
+        <div class="reveal">
+            <div class="section-label">Songbeispiele</div>
+            <h2 class="section-title"><span>Konzeptvorlagen</span></h2>
+            <div class="section-rule"></div>
+            <p class="section-intro">Erste Textentwürfe aus dem Musical DER BRIEF. Klicke auf einen Titel, um den Liedtext zu lesen.</p>
+        </div>
+
+        <div class="songs-accordion reveal">
+
+            <div class="song-row">
+            <div class="song-item">
+                <button class="song-header" onclick="toggleSong(this)" aria-expanded="false">
+                    Das Erbe
+                    <img src="images/daserbe.png" alt="" class="song-thumb">
+                    <span class="song-toggle">+</span>
+                </button>
+                <div class="song-body" data-play-x="0.50" data-play-y="0.47">
+                    <div class="song-img"><img src="images/daserbe.png" alt="Das Erbe"></div>
+                    <button class="song-play-overlay" aria-label="Song abspielen">▶</button>
+                    <div class="song-lyrics">Du sitzt da immer noch in deinem Stuhl,
+hinter Akten, hinter Regeln, hinter deinem Gefühl.
+Doch ich hab mein Ziel, ich will die Tat,
+ich will Cash – nicht deinen Rat.
+
+Ich bin bereit!
+Gib es frei!
+Jetzt ist meine Zeit!
+
+Ich will es jetzt – nicht später, nicht bald!
+Gib mir mein Erbe, du bist einfach zu alt!
+Verkauf die Praxis – es ist so weit,
+das ist mein Anfang, dein Kapitel schließt heut.
+
+Ich sag es dir direkt:
+Ich will es jetzt!
+
+Ich seh´s vor mir, seh meine Wege,
+mein Plan ist stark – mein neues Leben.
+Dein „Noch nicht" macht mich nicht klein,
+dein "Nein" passt nicht in mein Design.
+
+Du hast gezögert – doch nun ist's getan,
+du hast verstanden: Ich bin jetzt dran!
+Der Schlüssel liegt in meiner Hand –
+und ich zieh los – in neues Land!
+
+Ich danke dir – für deinen Schritt,
+du wolltest nicht – doch jetzt musst du mit.
+
+Ich will – ich kann – ich tu es jetzt!</div>
+                </div>
+            </div>
+            <button class="song-play" aria-label="Abspielen">▶</button>
+            </div>
+
+            <div class="song-row">
+            <div class="song-item">
+                <button class="song-header" onclick="toggleSong(this)" aria-expanded="false">
+                    Wildes Leben
+                    <img src="images/wildesleben.png" alt="" class="song-thumb">
+                    <span class="song-toggle">+</span>
+                </button>
+                <div class="song-body" data-play-x="0.50" data-play-y="0.42">
+                    <div class="song-img"><img src="images/wildesleben.png" alt="Wildes Leben"></div>
+                    <button class="song-play-overlay" aria-label="Song abspielen">▶</button>
+                    <div class="song-lyrics">Die Lichter tanzen auf nackter Haut,
+mein Puls schlägt heiß, das Herz ist laut.
+Die Blicke begehrend aus heißem Gesicht,
+jede Berührung brennt wie flüssiges Licht.
+Ein Tanz aus Hitze, Lust und Spiel,
+ich weiß ganz genau, was ich heute will.
+
+Ich lebe schnell und heiß und süß,
+und ich will, dass du es siehst.
+Ich gebe mich ganz, ich halt nicht still,
+weil ich alles, alles fühlen will.
+Sekt auf der Haut, Musik im Blut –
+ich schmeck das Leben, wild und gut.
+
+Ich bin kein Engel,
+ich bin kein Dämon –
+ich bin ein Sturm,
+und ich halt nicht an.
+Ich greife nach allem,
+was brennt und bleibt –
+ich bin die Lust,
+und ich will mehr.
+
+Kein Morgen zählt, kein Gestern fehlt,
+nur der Moment, alleine zählt.
+Ich dreh mich weiter, fühl mich leicht,
+unendlich frei, dem Himmel gleich.</div>
+                </div>
+            </div>
+            <button class="song-play" aria-label="Abspielen">▶</button>
+            </div>
+
+            <div class="song-row">
+            <div class="song-item">
+                <button class="song-header" onclick="toggleSong(this)" aria-expanded="false">
+                    Der Triumph
+                    <img src="images/dertriumph.png" alt="" class="song-thumb">
+                    <span class="song-toggle">+</span>
+                </button>
+                <div class="song-body">
+                    <div class="song-img"><img src="images/dertriumph.png" alt="Der Triumph"></div>
+                    <div class="song-lyrics">Sie sagten mir, pass auf es trügt,
+Die Welt da draußen täuscht und lügt.
+Doch ich entschied für diese Tür,
+SIE IST MEIN, SIE GEHÖRT MIR!
+
+Sie hielten mich für nur ein Spiel,
+Doch ich war Feuer, war mein Ziel.
+Ich hab gekämpft, ich hab geweint,
+Doch heute steh ich hier – allein.
+
+Ich hab's riskiert, ich hab´s gemacht –
+Trotz aller Mauern, trotz all der Nacht.
+Ich hab gelacht, wo andre flieh'n,
+Ich bin geboren, um zu sieg'n.
+Sie sah'n nur Risiko – ich Macht.
+Ich hab's gemacht, ICH HABS GESCHAFFT.
+
+Nie mehr Sorgen, unendlich frei,
+Die Welt liegt mir zu Füßen.
+Mein Glück, mein Leben, es beginnt,
+Nichts kann diese Tür mehr schließen.</div>
+                </div>
+            </div>
+            <button class="song-play" aria-label="Abspielen">▶</button>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================================================
+     TEAM / DAS FUNDAMENT
+     ============================================================ -->
+<section class="section story-bg" id="team">
+    <div class="section-inner">
+        <div class="reveal">
+            <div class="section-label">Das Fundament</div>
+            <h2 class="section-title">Team &amp; <span>Behind the Scenes</span></h2>
+            <div class="section-rule"></div>
+            <p class="section-intro">Die Menschen, die DER BRIEF möglich machen. Klicke auf eine Kachel für Details.</p>
+        </div>
+
+        <div class="card-grid card-grid-sm reveal">
+
+            <!-- ── Axel Rudolf Trapp ── -->
+            <div class="flip-card flip-card-sm" role="button">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-avatar" style="height:130px;"><img src="images/fundamen_axel.png" alt="Axel Rudolf Trapp"></div>
+                        <div class="card-body">
+                            <div class="card-role">Idee &amp; Konzept</div>
+                            <div class="card-name">Axel Rudolf Trapp</div>
+                            <div class="card-hint">↻ Mehr erfahren</div>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="cb-name">Axel Rudolf Trapp</div>
+                        <div class="cb-role">Idee, Konzept &amp; künstlerische Entwicklung</div>
+                        <div class="cb-text">
+                            „Diese Idee bewegt mich schon seit Jahren – mit einer Band ein Programm zu spielen, das eine
+                            Geschichte erzählt, die zum Nachdenken anregt, Mut macht und Perspektiven zeigt."<br><br>
+                            Thema: Beziehungen, Liebe, Schuld und Vergebung. Persönlich zieht er Parallelen zu
+                            seiner Beziehung zu Gott.
+                        </div>
+                        <a href="ueber-mich.html" class="cb-link" onclick="event.stopPropagation()">→ Mehr über Axel</a>
+                        <div class="cb-close">↻ Zurückdrehen</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Antonia Schnauber – Regie ── -->
+            <div class="flip-card flip-card-sm" role="button">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-avatar" style="height:130px;"><img src="images/fundament_antonia.png" alt="Antonia Schnauber"></div>
+                        <div class="card-body">
+                            <div class="card-role">Buch &amp; Regie</div>
+                            <div class="card-name">Antonia Schnauber</div>
+                            <div class="card-hint">↻ Mehr erfahren</div>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="cb-name">Antonia Schnauber</div>
+                        <div class="cb-role">Buch &amp; Regie</div>
+                        <div class="cb-text">
+                            Bachelor European Studies &amp; Master Cultural Studies, University of London.<br><br>
+                            2004 Schauspieldiplom, Academy of Live and Recorded Arts, London.<br><br>
+                            Theaterengagements und internationale Kulturprojekte in Großbritannien und Deutschland.
+                            Derzeit in Regieausbildung.
+                        </div>
+                        <a href="https://antonia-schnauber.com" target="_blank" rel="noopener" class="cb-link">→ antonia-schnauber.com</a>
+                        <div class="cb-close">↻ Zurückdrehen</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Matthias Gutendorf ── -->
+            <div class="flip-card flip-card-sm" role="button">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-avatar" style="height:130px;"><img src="images/fundament_matthias.png" alt="Matthias Gutendorf"></div>
+                        <div class="card-body">
+                            <div class="card-role">Dramaturgie</div>
+                            <div class="card-name">Matthias Gutendorf</div>
+                            <div class="card-hint">↻ Mehr erfahren</div>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="cb-name">Matthias Gutendorf</div>
+                        <div class="cb-role">Künstlerisch-dramaturgische Gesamtbegleitung</div>
+                        <div class="cb-text">
+                            „Ich liebe Musik, habe ein Herz für Dramaturgie und zu meiner Grundüberzeugung zählt, dass die
+                            Liebe Gottes zu den Menschen das zentralste Thema überhaupt ist. Aus diesen Gründen bin ich Teil
+                            dieses formidablen Projektes geworden und freue mich auf den Austausch mit unserem Publikum."
+                        </div>
+                        <div class="cb-close">↻ Zurückdrehen</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Sebastian Rahmel ── -->
+            <div class="flip-card flip-card-sm" role="button">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-avatar" style="height:130px;"><img src="images/behind_sebastian.png" alt="Sebastian Rahmel"></div>
+                        <div class="card-body">
+                            <div class="card-role">Vorstand Cadenza · Marketing</div>
+                            <div class="card-name">Sebastian Rahmel</div>
+                            <div class="card-hint">↻ Mehr erfahren</div>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="cb-name">Sebastian Rahmel</div>
+                        <div class="cb-role">Vorstand Cadenza · Marketing</div>
+                        <div class="cb-text">
+                            Gründer von encurio – seit 2025 spezialisiert auf smarte Automatisierungslösungen,
+                            Multi-Agenten-Systeme und maßgeschneiderte KI-Strategien.
+                        </div>
+                        <a href="https://www.encurio.com/de" target="_blank" rel="noopener" class="cb-link">→ encurio.com</a>
+                        <div class="cb-close">↻ Zurückdrehen</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Anna Borisova ── -->
+            <div class="flip-card flip-card-sm" role="button">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-avatar" style="height:130px;"><img src="images/behind_anna.png" alt="Anna Borisova"></div>
+                        <div class="card-body">
+                            <div class="card-role">Bühnenbild · Video &amp; Projektion</div>
+                            <div class="card-name">Anna Borisova</div>
+                            <div class="card-hint">↻ Mehr erfahren</div>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="cb-name">Anna Borisova</div>
+                        <div class="cb-role">Bühnenbild – Video / Projektion</div>
+                        <div class="cb-text">
+                            Künstlerischer Hintergrund in bildender Kunst, Musik und Theater.
+                            Dozentin für Malerei, VHS Essen.<br><br>
+                            Abgeschlossenes Kunststudium (Schwerpunkt Malerei), diverse Preise und Auszeichnungen.
+                        </div>
+                        <a href="https://anna-borisova.de" target="_blank" rel="noopener" class="cb-link">→ anna-borisova.de</a>
+                        <div class="cb-close">↻ Zurückdrehen</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Ralf Schusdziarra ── -->
+            <div class="flip-card flip-card-sm" role="button">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-avatar" style="height:130px;"><img src="images/behind_ralf.png" alt="Ralf Schusdziarra"></div>
+                        <div class="card-body">
+                            <div class="card-role">Bandcoaching</div>
+                            <div class="card-name">Ralf Schusdziarra</div>
+                            <div class="card-hint">↻ Mehr erfahren</div>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="cb-name">Ralf Schusdziarra</div>
+                        <div class="cb-role">Bandcoaching</div>
+                        <div class="cb-text">
+                            Professionelle Beratung und Begleitung von Bands bei Proben, Ausarbeitung von eigenem
+                            Songmaterial bis hin zum Auftritt.<br><br>
+                            Bass Unterricht in Solingen und Wuppertal. Musiktheorie, Harmonielehre, Gehörbildung.
+                        </div>
+                        <a href="https://www.bass-seminar.com" target="_blank" rel="noopener" class="cb-link">→ bass-seminar.com</a>
+                        <div class="cb-close">↻ Zurückdrehen</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Guido Löhr ── -->
+            <div class="flip-card flip-card-sm" role="button">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-avatar" style="height:130px;"><img src="images/behind_guido.png" alt="Guido Löhr"></div>
+                        <div class="card-body">
+                            <div class="card-role">Technischer Leiter · Ton &amp; Licht</div>
+                            <div class="card-name">Guido Löhr</div>
+                            <div class="card-hint">↻ Mehr erfahren</div>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="cb-name">Guido Löhr</div>
+                        <div class="cb-role">Technischer Leiter · Ton &amp; Licht</div>
+                        <div class="cb-text">
+                            Sorgt dafür, dass Ton und Licht nicht nur funktionieren, sondern wirken. Mit sicherem Gefühl für
+                            Sound und Lichtdesign fängt er die Atmosphäre der Songs ein.<br><br>
+                            Unauffällig im Hintergrund, entscheidend für den Moment – aus dem Team nicht wegzudenken.
+                        </div>
+                        <div class="cb-close">↻ Zurückdrehen</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Jonas Bremkamp ── -->
+            <div class="flip-card flip-card-sm" role="button">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-avatar" style="height:130px;"><img src="images/johan.png" alt="Jonas Bremkamp"></div>
+                        <div class="card-body">
+                            <div class="card-role">Vorstand Cadenza · Assistent Licht</div>
+                            <div class="card-name">Jonas Bremkamp</div>
+                            <div class="card-hint">↻ Mehr erfahren</div>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="cb-name">Jonas Bremkamp</div>
+                        <div class="cb-role">Vorstand Cadenza · Assistent Licht</div>
+                        <div class="cb-text">
+                            Jonas Bremkamp – Vorstand beim Förderverein Cadenza und Assistent im Lichtbereich der Produktion.
+                        </div>
+                        <div class="cb-close">↻ Zurückdrehen</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Förderverein Cadenza ── -->
+            <div class="flip-card flip-card-sm" role="button">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-avatar" style="height:130px;"><img src="images/trägerschaft.png" alt="Förderverein Cadenza"></div>
+                        <div class="card-body">
+                            <div class="card-role">Produktion · Trägerschaft</div>
+                            <div class="card-name">Förderverein Cadenza</div>
+                            <div class="card-hint">↻ Mehr erfahren</div>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="cb-name">Förderverein Cadenza</div>
+                        <div class="cb-role">Gemeinnützige Produktion &amp; Trägerschaft</div>
+                        <div class="cb-text">
+                            Zweck: Förderung von Kunst und Kultur, insbesondere durch Aufführung von Musicals und
+                            vergleichbaren musikalisch-szenischen Werken.<br><br>
+                            Unterstützt das Musical DER BRIEF finanziell und ideell – ein Projekt über Verrat,
+                            Heilung und bedingungslose Liebe.
+                        </div>
+                        <div class="cb-close">↻ Zurückdrehen</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================================================
+     UNTERSTÜTZER
+     ============================================================ -->
+<section class="section supporters-bg" id="unterstuetzer">
+    <div class="section-inner">
+        <div class="reveal">
+            <div class="section-label">Gemeinschaft</div>
+            <h2 class="section-title">Unsere <span>Unterstützer</span></h2>
+            <div class="section-rule"></div>
+            <p class="section-intro">Stand Dezember 2025 – herzlichen Dank an alle, die dieses Projekt möglich machen!</p>
+        </div>
+
+        <div class="supporters-split reveal">
+
+            <!-- Bild links -->
+            <div class="supporters-img">
+                <img src="images/ubterstützer.png" alt="Unsere Unterstützer">
+            </div>
+
+            <!-- Namen rechts -->
+            <div class="supporters-list-wrap">
+                <div class="supporters-names-wrap" id="supportersWrap">
+                <ul class="supporters-names">
+                    <li>Anna Borisova</li>
+                    <li>Antonia Schnauber</li>
+                    <li>Astrid Brehmkamp</li>
+                    <li>Britta Sooter</li>
+                    <li>Carl Pankow</li>
+                    <li>Christian Tscheburaschka</li>
+                    <li>Darius</li>
+                    <li>Elisabeth Trapp</li>
+                    <li>Fabienne Nijon</li>
+                    <li>Frithjof Trapp</li>
+                    <li>Galal Mazouk</li>
+                    <li>Gizo Okhanavashvili</li>
+                    <li>Gudrun Haaga</li>
+                    <li>Guido Löhr</li>
+                    <li>Helga</li>
+                    <li>Henning</li>
+                    <li>Jan Trapp</li>
+                    <li>Jessica</li>
+                    <li>Joanne Ingrid</li>
+                    <li>John Wick</li>
+                    <li>Jonathan Trapp</li>
+                    <li>Julia Reidy</li>
+                    <li>Kamilla Kamilova</li>
+                    <li>Lea Muriel</li>
+                    <li>Lukas Frings</li>
+                    <li>Lukas Trapp</li>
+                    <li>Martin Kuske</li>
+                    <li>Matthias Gutendorf</li>
+                    <li>Matthias Schmahl</li>
+                    <li>Mehenaz</li>
+                    <li>Michael Willi</li>
+                    <li>Möni Quarch</li>
+                    <li>Peter</li>
+                    <li>Ragna</li>
+                    <li>Ralf Altreuther</li>
+                    <li>Regina Menich</li>
+                    <li>Reinhard Dobat</li>
+                    <li>Sebastian Grasse</li>
+                    <li>Sebastian Rahmel</li>
+                    <li>Steffi Koch</li>
+                    <li>Susanne von Dreusche</li>
+                    <li>Wilfried Häring</li>
+                </ul>
+                </div>
+                <button class="supporters-expand-btn" id="supportersExpandBtn" aria-label="Liste ausklappen"></button>
+                <span class="supporter-featured">Stadtsparkasse Wuppertal</span>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================================================
+     SPENDEN
+     ============================================================ -->
+<section class="section donation-banner" id="spenden">
+    <div class="section-inner">
+        <div class="donation-inner reveal">
+            <div class="section-label">Sei dabei</div>
+            <h2 class="section-title">Du kannst <span>DER BRIEF</span> durch Deine Spende unterstützen:</h2>
+            <div class="section-rule" style="margin: 1.25rem auto 1.75rem;"></div>
+            <p style="color: var(--clr-muted); font-size: 1rem; max-width: 700px; margin: 0 auto 0.75rem;">
+                DER BRIEF ist ein gemeinnütziges Herzensanliegen – getragen vom Förderverein Cadenza.
+                Du kannst uns ganz unkompliziert über die Spendenplattform <strong style="color:var(--clr-text);">betterplace.org</strong> unterstützen.
+            </p>
+            <p style="color: var(--clr-muted); font-size: 0.92rem; max-width: 700px; margin: 0 auto 0;">
+                Wenn Du andere Wege zur Unterstützung oder Kooperationen persönlich besprechen möchtest,
+                schreib uns gerne über die verschiedenen Möglichkeiten im <a href="#kontakt" style="color:var(--clr-gold);">Kontaktbereich</a> –
+                vorzugsweise per E-Mail – wir freuen uns auf Deine Nachricht.
+            </p>
+
+            <div class="donation-cards">
+                <a href="https://www.betterplace.org/de/projects/163951?utm_campaign=user_share&utm_medium=ppp_sticky&utm_source=Link&utm_content=bp"
+                   target="_blank" rel="noopener" class="donation-card">
+                    <img src="images/spende_betterplace.png" alt="Spendenaktion über betterplace">
+                    <div class="donation-card-caption">Spendenaktion über „betterplace"</div>
+                </a>
+                <a href="https://www.betterplace.org/en/organisations/69524-foerderverein-cadenza"
+                   target="_blank" rel="noopener" class="donation-card">
+                    <img src="images/spende_förderverein_cadenza.png" alt="Förderverein Cadenza">
+                    <div class="donation-card-caption">Förderverein Cadenza</div>
+                </a>
+            </div>
+
+            <div class="btn-group">
+                <a href="https://www.betterplace.org/de/projects/163951?utm_campaign=user_share&utm_medium=ppp_sticky&utm_source=Link&utm_content=bp"
+                   target="_blank" rel="noopener" class="btn btn-donate">
+                    ♥ Jetzt spenden via betterplace
+                </a>
+                <a href="#kontakt" class="btn btn-contact">
+                    Kontakt aufnehmen
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================================================
+     FEEDBACK
+     ============================================================ -->
+<section class="section feedback-bg" id="feedback">
+    <div class="section-inner">
+        <div class="reveal">
+            <div class="section-label">Deine Meinung</div>
+            <h2 class="section-title"><span>Feedback</span></h2>
+            <div class="section-rule"></div>
+            <p style="color: var(--clr-muted); margin-bottom: 0.5rem;">Wie gefällt dir unser Projekt DER BRIEF?</p>
+        </div>
+        <div class="reveal">
+            <div class="rating-group" id="ratingGroup">
+                <button class="rating-btn" onclick="selectRating(this)">Ausgezeichnet</button>
+                <button class="rating-btn" onclick="selectRating(this)">Gut</button>
+                <button class="rating-btn" onclick="selectRating(this)">Durchschnittlich</button>
+                <button class="rating-btn" onclick="selectRating(this)">Nicht so gut</button>
+                <button class="rating-btn" onclick="selectRating(this)">Schlecht</button>
+            </div>
+            <div class="feedback-thanks" id="feedbackThanks">
+                Danke für Dein Interesse!! … ich hoffe, wir sehen uns bald!
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================================================
+     KONTAKT
+     ============================================================ -->
+<section class="section" id="kontakt">
+    <div class="section-inner">
+        <div class="reveal">
+            <div class="section-label">In Kontakt kommen</div>
+            <h2 class="section-title"><span>Kontakt</span></h2>
+            <div class="section-rule"></div>
+            <p style="color: var(--clr-muted); margin-bottom: 2.5rem; max-width: 560px;">
+                Folgt uns · Schreibt uns · Bleibt auf dem Laufenden –<br>
+                Behind the Scenes &amp; Kontakt.
+            </p>
+            <div class="btn-group">
+                <a href="https://www.facebook.com/DerBriefDasMusical" target="_blank" rel="noopener" class="btn btn-facebook">
+                    Facebook
+                </a>
+                <a href="https://wa.me/" target="_blank" rel="noopener" class="btn btn-whatsapp">
+                    WhatsApp
+                </a>
+                <a href="mailto:info@derbriefdasmusical.com" class="btn btn-contact">
+                    E-Mail Kontakt
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Backdrop hinter der geöffneten Kachel -->
+<div class="card-backdrop" id="cardBackdrop"></div>
+
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+    <a href="#hero" class="footer-logo" style="display:inline-block;text-decoration:none;">DER BRIEF</a>
+    <div class="footer-sub">Das Soul-Musical</div>
+
+    <nav class="footer-nav">
+        <a href="#story">Story</a>
+        <a href="#cast">Besetzung</a>
+        <a href="#band">Band</a>
+        <a href="#konzept">Konzept</a>
+        <a href="#songs">Songs</a>
+        <a href="#team">Team</a>
+        <a href="#spenden">Spenden</a>
+        <a href="#kontakt">Kontakt</a>
+        <a href="impressum.html#impressum">Impressum</a>
+        <a href="impressum.html#datenschutz">Datenschutz</a>
+    </nav>
+
+    <p class="footer-copy">&copy; <span id="footerYear"></span> Förderverein Cadenza &nbsp;·&nbsp; DER BRIEF – Das Soul-Musical</p>
+</footer>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+
+    /* ── Navigation: mobile toggle ── */
+    const navToggle = document.getElementById('navToggle');
+    const navLinks  = document.getElementById('navLinks');
+
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+    navLinks.querySelectorAll('a').forEach(l => l.addEventListener('click', () => navLinks.classList.remove('open')));
+
+    /* ── Navigation: shrink on scroll ── */
+    window.addEventListener('scroll', () => {
+        document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 80);
+    });
+
+    /* ── Flip Card – zentriert & vergrößert ── */
+    const backdrop = document.getElementById('cardBackdrop');
+
+    function closeCard() {
+        document.querySelectorAll('.flip-card.flipped').forEach(c => c.classList.remove('flipped'));
+        backdrop.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.flip-card').forEach(card => {
+        card.addEventListener('click', function () {
+            const wasFlipped = this.classList.contains('flipped');
+            closeCard();
+            if (!wasFlipped) {
+                this.classList.add('flipped');
+                backdrop.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+        });
+    });
+
+    backdrop.addEventListener('click', closeCard);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCard(); });
+
+    window.addEventListener('pageshow', e => { if (e.persisted) closeCard(); });
+
+    /* ── Dynamisches Copyright-Jahr ── */
+    document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+    /* ── Nav-Logo: oben → scrollt zu Footer; sonst → scrollt nach oben ── */
+    document.querySelector('.nav-logo').addEventListener('click', e => {
+        e.preventDefault();
+        if (window.scrollY < 100) {
+            document.querySelector('.footer').scrollIntoView({ behavior: 'smooth', block: 'end' });
+        } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    });
+
+    /* ── Footer-Logo: scrollt immer nach oben ── */
+    document.querySelector('a.footer-logo').addEventListener('click', e => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* ── Watermark: front image as faint B&W background on back face ── */
+    document.querySelectorAll('.flip-card').forEach(card => {
+        const img  = card.querySelector('.card-avatar img');
+        const back = card.querySelector('.flip-card-back');
+        if (!img || !back) return;
+        const wm = document.createElement('div');
+        wm.className = 'cb-watermark';
+        wm.innerHTML = `<img src="${img.getAttribute('src')}" alt="">`;
+        back.insertBefore(wm, back.firstChild);
+    });
+
+    /* ── Unterstützer-Liste aufklappen (Mobile) ── */
+    const supportersBtn  = document.getElementById('supportersExpandBtn');
+    const supportersWrap = document.getElementById('supportersWrap');
+    if (supportersBtn && supportersWrap) {
+        supportersBtn.addEventListener('click', () => {
+            const isOpen = supportersWrap.classList.toggle('open');
+            supportersBtn.classList.toggle('open', isOpen);
+            if (isOpen) supportersBtn.setAttribute('aria-label', 'Liste einklappen');
+            else         supportersBtn.setAttribute('aria-label', 'Liste ausklappen');
+        });
+    }
+
+    /* ── Scroll spy: highlight active nav section ── */
+    const navAnchors = document.querySelectorAll('.nav-links a[href^="#"]');
+    const scrollSections = document.querySelectorAll('section[id]');
+    const sectionObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navAnchors.forEach(a => {
+                    a.classList.toggle('nav-active', a.getAttribute('href') === `#${entry.target.id}`);
+                });
+            }
+        });
+    }, { threshold: 0.25, rootMargin: '-70px 0px -50% 0px' });
+    scrollSections.forEach(s => sectionObserver.observe(s));
+
+    /* ── Song accordion ── */
+    function toggleSong(btn) {
+        const body   = btn.nextElementSibling;
+        const isOpen = body.classList.contains('open');
+        document.querySelectorAll('.song-body').forEach(b => b.classList.remove('open'));
+        document.querySelectorAll('.song-header').forEach(h => {
+            h.classList.remove('active');
+            h.setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+            body.classList.add('open');
+            btn.classList.add('active');
+            btn.setAttribute('aria-expanded', 'true');
+        }
+    }
+
+    /* ── Feedback rating ── */
+    function selectRating(btn) {
+        document.querySelectorAll('.rating-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        document.getElementById('feedbackThanks').style.display = 'block';
+    }
+
+    /* ── Scroll reveal ── */
+    const revealObserver = new IntersectionObserver(
+        entries => entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                revealObserver.unobserve(entry.target);
+            }
+        }),
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+</script>
+</body>
+</html>
