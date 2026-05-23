@@ -52,26 +52,66 @@
 
         .nav-logo {
             font-family: var(--font-heading);
-            font-size: 1.25rem;
-            color: var(--clr-accent);
-            letter-spacing: 2px;
-            font-weight: 700;
+            font-size: 1rem;
+            color: var(--clr-text);
+            letter-spacing: 1px;
+            font-weight: 400;
         }
-        .nav-logo span { font-weight: 400; font-size: 0.85rem; opacity: 0.7; }
+        .nav-logo span { color: var(--clr-accent); font-weight: 600; }
 
         .nav-links {
             display: flex;
             gap: 1.75rem;
             list-style: none;
+            align-items: center;
         }
         .nav-links a {
-            font-size: 0.78rem;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
             color: var(--clr-muted);
             transition: color var(--transition);
         }
-        .nav-links a:hover { color: #b8d4ff; }
+        .nav-links a:hover { color: var(--clr-accent); }
+
+        .nav-btn {
+            padding: 0.5rem 1.25rem;
+            border: 1px solid var(--clr-accent);
+            color: var(--clr-accent);
+            border-radius: var(--radius);
+            font-size: 0.78rem;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all var(--transition);
+        }
+        .nav-btn:hover { background: var(--clr-accent); color: #fff; }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--clr-accent);
+            font-size: 1.6rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 700px) {
+            .nav-links { display: none; }
+            .nav-links.open {
+                display: flex;
+                position: absolute;
+                top: 100%;
+                left: 0; right: 0;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                background: rgba(10, 16, 28, 0.99);
+                padding: 1.5rem 2rem;
+                gap: 1rem;
+                border-bottom: 1px solid var(--clr-border);
+            }
+            .nav-toggle { display: block; }
+        }
 
         /* ── Page header ── */
         .page-header {
@@ -263,12 +303,13 @@
 <body>
 
 <!-- Navigation -->
-<nav class="nav">
+<nav class="nav" id="mainNav">
     <a href="index.html" class="nav-logo">Der Brief <span>· das Soulmusical</span></a>
-    <ul class="nav-links">
-        <li><a href="#" onclick="history.back(); return false;">Zurück</a></li>
-        <li><a href="index.html#kontakt">Kontakt</a></li>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="index.html#footer">Zurück</a></li>
+        <li><a href="index.html#kontakt" class="nav-btn">KONTAKT</a></li>
     </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Menü öffnen">&#9776;</button>
 </nav>
 
 <!-- Page Header -->
@@ -382,10 +423,18 @@
         <a href="impressum.html#impressum">Impressum</a>
         <a href="impressum.html#datenschutz">Datenschutz</a>
     </nav>
-    <p class="footer-copy">&copy; 2025 Förderverein Cadenza &nbsp;·&nbsp; DER BRIEF – Das Soul-Musical</p>
+    <p class="footer-copy">&copy; <span id="footerYear"></span> Förderverein Cadenza &nbsp;·&nbsp; DER BRIEF – Das Soul-Musical</p>
 </footer>
 
 <script>
+    document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+    /* ── Navigation mobile toggle ── */
+    const navToggle = document.getElementById('navToggle');
+    const navLinks  = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+    navLinks.querySelectorAll('a').forEach(l => l.addEventListener('click', () => navLinks.classList.remove('open')));
+
     /* Tab-Highlighting beim Scrollen */
     const tabs = document.querySelectorAll('.section-tabs a');
     const sections = document.querySelectorAll('.legal-section[id]');

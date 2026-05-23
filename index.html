@@ -306,6 +306,13 @@
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
         }
 
+        /* Team: Rollenzeile immer 2 Zeilen hoch → Namen auf gleicher Höhe */
+        #team .card-role {
+            min-height: 2.8em;
+            display: flex;
+            align-items: flex-start;
+        }
+
         /* Team: 4 Spalten, letzte Kachel (Cadenza) mittig */
         #team .card-grid-sm {
             grid-template-columns: repeat(4, 1fr);
@@ -1120,8 +1127,19 @@
 
             .hero { padding: 6rem 1.25rem 4rem; }
 
+            .band-grid .flip-card .card-tagline { display: none; }
+            .band-grid .flip-card .role-extra { display: none; }
+            .band-grid .flip-card .card-name { margin-bottom: 0; }
+            .band-grid .flip-card .card-body { padding-bottom: 0.4rem; }
+
             /* Kacheln: Text ~4% kleiner, Mehr-erfahren ausblenden */
             .card-role    { font-size: 0.63rem; }
+
+            /* Team & BtS: Rollenzeile einzeilig halten */
+            #team .card-role {
+                font-size: 0.5rem;
+                letter-spacing: 1px;
+            }
             .card-name    { font-size: 1.06rem; }
             .card-tagline { font-size: 0.77rem; }
             .card-hint    { display: none; }
@@ -1302,16 +1320,21 @@
             .cast-grid .flip-card { height: 390px; }
             .cast-grid .flip-card .card-avatar { height: 210px; }
 
-            /* Band: 4-Spalten-Raster → 2+2+1 zentriert */
+            /* Band: 2 Spalten wie Team, 5. Kachel zentriert */
             .band-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 0.75rem 2.5rem;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
             }
 
-            .band-grid .flip-card:nth-child(n) { grid-column: span 2; }
-            .band-grid .flip-card:nth-child(5)  { grid-column: 2 / 4; }
+            .band-grid .flip-card:nth-child(n) { grid-column: auto; }
+            .band-grid .flip-card:nth-child(5) {
+                grid-column: 1 / -1;
+                justify-self: center;
+                width: calc((100% - 1.75rem) / 2);
+            }
 
-            .band-grid .flip-card { height: 390px; }
+            .band-grid .flip-card { height: auto; }
+            .band-grid .flip-card .flip-card-inner { height: 310px; }
             .band-grid .flip-card .card-avatar { height: 210px; }
         }
 
@@ -1623,7 +1646,7 @@
                     <div class="flip-card-front">
                         <div class="card-avatar"><img src="images/micha_schank.png" alt="Micha Schank"></div>
                         <div class="card-body">
-                            <div class="card-role">Schlagzeug &amp; Percussion</div>
+                            <div class="card-role">Schlagzeug<span class="role-extra"> &amp; Percussion</span></div>
                             <div class="card-name">Micha Schank</div>
                             <div class="card-tagline">Jazz · Funk · Soul</div>
                             <div class="card-hint">↻ Mehr erfahren</div>
@@ -2322,7 +2345,7 @@ Nichts kann diese Tür mehr schließen.</div>
 <!-- ============================================================
      FOOTER
      ============================================================ -->
-<footer class="footer">
+<footer class="footer" id="footer">
     <a href="#hero" class="footer-logo" style="display:inline-block;text-decoration:none;">DER BRIEF</a>
     <div class="footer-sub">Das Soul-Musical</div>
 
