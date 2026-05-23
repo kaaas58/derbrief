@@ -651,7 +651,7 @@
         /* =============================================
            SONGS ACCORDION
            ============================================= */
-        .songs-accordion { max-width: 780px; }
+        .songs-accordion { max-width: 100%; }
 
         .song-right-controls {
             display: flex;
@@ -819,7 +819,15 @@
             font-weight: 600;
             color: var(--clr-gold);
             letter-spacing: 0.5px;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .sparkasse-logo {
+            height: 2rem;
+            width: auto;
+            display: block;
         }
 
         @media (max-width: 900px) {
@@ -2228,7 +2236,7 @@ Nichts kann diese Tür mehr schließen.</div>
                 </ul>
                 </div>
                 <button class="supporters-expand-btn" id="supportersExpandBtn" aria-label="Liste ausklappen"></button>
-                <span class="supporter-featured">Stadtsparkasse Wuppertal</span>
+                <span class="supporter-featured"><img src="images/sparkasse.svg" alt="" class="sparkasse-logo"> Stadtsparkasse Wuppertal</span>
             </div>
 
         </div>
@@ -2281,32 +2289,6 @@ Nichts kann diese Tür mehr schließen.</div>
     </div>
 </section>
 
-
-<!-- ============================================================
-     FEEDBACK
-     ============================================================ -->
-<section class="section feedback-bg" id="feedback">
-    <div class="section-inner">
-        <div class="reveal">
-            <div class="section-label">Deine Meinung</div>
-            <h2 class="section-title"><span>Feedback</span></h2>
-            <div class="section-rule"></div>
-            <p style="color: var(--clr-muted); margin-bottom: 0.5rem;">Wie gefällt dir unser Projekt DER BRIEF?</p>
-        </div>
-        <div class="reveal">
-            <div class="rating-group" id="ratingGroup">
-                <button class="rating-btn" onclick="selectRating(this)">Ausgezeichnet</button>
-                <button class="rating-btn" onclick="selectRating(this)">Gut</button>
-                <button class="rating-btn" onclick="selectRating(this)">Durchschnittlich</button>
-                <button class="rating-btn" onclick="selectRating(this)">Nicht so gut</button>
-                <button class="rating-btn" onclick="selectRating(this)">Schlecht</button>
-            </div>
-            <div class="feedback-thanks" id="feedbackThanks">
-                Danke für Dein Interesse!! … ich hoffe, wir sehen uns bald!
-            </div>
-        </div>
-    </div>
-</section>
 
 
 <!-- ============================================================

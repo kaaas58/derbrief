@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 54">
+  <!-- Upper C arc -->
+  <path d="M 21,4 A 12,12 0 0,0 21,28"
+        fill="none" stroke="white" stroke-width="9" stroke-linecap="round"/>
+  <!-- Lower reverse-C arc -->
+  <path d="M 21,28 A 12,12 0 0,1 21,52"
+        fill="none" stroke="white" stroke-width="9" stroke-linecap="round"/>
+  <!-- Dot -->
+  <circle cx="36" cy="5" r="5" fill="white"/>
+</svg>
