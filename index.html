@@ -352,6 +352,13 @@
             transform: rotateY(180deg);
         }
 
+        .flip-card.flip-x.flipped .flip-card-inner {
+            transform: rotateX(180deg);
+        }
+        .flip-card.flip-x .flip-card-back {
+            transform: rotateX(180deg);
+        }
+
         /* shared face styles */
         .flip-card-front,
         .flip-card-back {
@@ -1731,7 +1738,7 @@
         <div class="konzept-flip-grid reveal">
 
             <!-- Dramaturgie -->
-            <div class="flip-card" role="button" aria-label="Dramaturgie">
+            <div class="flip-card flip-x" role="button" aria-label="Dramaturgie">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
                         <div class="card-avatar"><img src="images/dramaturgie.png" alt="Dramaturgie"></div>
@@ -1758,7 +1765,7 @@
             </div>
 
             <!-- Das Arrangement -->
-            <div class="flip-card" role="button" aria-label="Das Arrangement">
+            <div class="flip-card flip-x" role="button" aria-label="Das Arrangement">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
                         <div class="card-avatar"><img src="images/das_arrangement.png" alt="Das Arrangement"></div>
