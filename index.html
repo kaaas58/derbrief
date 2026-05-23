@@ -646,34 +646,22 @@
            ============================================= */
         .songs-accordion { max-width: 780px; }
 
-        .song-row {
+        .song-right-controls {
             display: flex;
-            align-items: flex-start;
-            gap: 2rem;
-            margin-bottom: 0;
-        }
-
-        .song-row .song-item { flex: 1; min-width: 0; }
-
-        .song-play {
+            align-items: center;
+            gap: 1.25rem;
             flex-shrink: 0;
-            background: none;
-            border: none;
+        }
+
+        .song-play-btn {
             color: var(--clr-gold);
-            font-size: 1.1rem;
-            cursor: pointer;
-            padding: 1.1rem 0;
+            font-size: 1rem;
             line-height: 1;
-            opacity: 1;
-            transition: color var(--transition), transform var(--transition), opacity 0.25s ease;
+            transition: transform var(--transition);
         }
 
-        .song-play:hover { color: var(--clr-text); transform: scale(1.2); }
-
-        .song-row:has(.song-header.active) .song-play {
-            opacity: 0;
-            pointer-events: none;
-        }
+        .song-header:hover .song-play-btn { transform: scale(1.2); }
+        .song-header.active .song-play-btn { opacity: 0; pointer-events: none; }
 
         .song-item {
             border: 1px solid var(--clr-border);
@@ -713,36 +701,6 @@
             object-position: center top;
             opacity: 0.85;
             pointer-events: none;
-        }
-
-        .song-play-overlay {
-            position: absolute;
-            z-index: 2;
-            width: 3.4rem;
-            height: 3.4rem;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.28);
-            border: 2px solid rgba(255, 255, 255, 0.65);
-            color: #fff;
-            font-size: 0.95rem;
-            padding-left: 3px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            transition: opacity 0.3s ease, background 0.2s;
-        }
-
-        .song-body.open .song-play-overlay {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .song-play-overlay:hover {
-            background: rgba(0, 0, 0, 0.55);
         }
 
         .song-header:hover { background: #1a2840; }
@@ -1808,21 +1766,22 @@
             <div class="section-label">Songbeispiele</div>
             <h2 class="section-title"><span>Konzeptvorlagen</span></h2>
             <div class="section-rule"></div>
-            <p class="section-intro">Erste Textentwürfe aus dem Musical DER BRIEF. Klicke auf einen Titel, um den Liedtext zu lesen.</p>
+            <p class="section-intro">Erste Textentwürfe aus dem Musical DER BRIEF. Klicke auf einen Titel, um den Liedtext zu lesen und zu hören.</p>
         </div>
 
         <div class="songs-accordion reveal">
 
-            <div class="song-row">
             <div class="song-item">
                 <button class="song-header" onclick="toggleSong(this)" aria-expanded="false">
                     Das Erbe
                     <img src="images/daserbe.png" alt="" class="song-thumb">
-                    <span class="song-toggle">+</span>
+                    <span class="song-right-controls">
+                        <span class="song-play-btn">▶</span>
+                        <span class="song-toggle">+</span>
+                    </span>
                 </button>
-                <div class="song-body" data-play-x="0.50" data-play-y="0.47">
+                <div class="song-body">
                     <div class="song-img"><img src="images/daserbe.png" alt="Das Erbe"></div>
-                    <button class="song-play-overlay" aria-label="Song abspielen">▶</button>
                     <div class="song-lyrics">Du sitzt da immer noch in deinem Stuhl,
 hinter Akten, hinter Regeln, hinter deinem Gefühl.
 Doch ich hab mein Ziel, ich will die Tat,
@@ -1856,19 +1815,18 @@ du wolltest nicht – doch jetzt musst du mit.
 Ich will – ich kann – ich tu es jetzt!</div>
                 </div>
             </div>
-            <button class="song-play" aria-label="Abspielen">▶</button>
-            </div>
 
-            <div class="song-row">
             <div class="song-item">
                 <button class="song-header" onclick="toggleSong(this)" aria-expanded="false">
                     Wildes Leben
                     <img src="images/wildesleben.png" alt="" class="song-thumb">
-                    <span class="song-toggle">+</span>
+                    <span class="song-right-controls">
+                        <span class="song-play-btn">▶</span>
+                        <span class="song-toggle">+</span>
+                    </span>
                 </button>
-                <div class="song-body" data-play-x="0.50" data-play-y="0.42">
+                <div class="song-body">
                     <div class="song-img"><img src="images/wildesleben.png" alt="Wildes Leben"></div>
-                    <button class="song-play-overlay" aria-label="Song abspielen">▶</button>
                     <div class="song-lyrics">Die Lichter tanzen auf nackter Haut,
 mein Puls schlägt heiß, das Herz ist laut.
 Die Blicke begehrend aus heißem Gesicht,
@@ -1898,15 +1856,15 @@ Ich dreh mich weiter, fühl mich leicht,
 unendlich frei, dem Himmel gleich.</div>
                 </div>
             </div>
-            <button class="song-play" aria-label="Abspielen">▶</button>
-            </div>
 
-            <div class="song-row">
             <div class="song-item">
                 <button class="song-header" onclick="toggleSong(this)" aria-expanded="false">
                     Der Triumph
                     <img src="images/dertriumph.png" alt="" class="song-thumb">
-                    <span class="song-toggle">+</span>
+                    <span class="song-right-controls">
+                        <span class="song-play-btn">▶</span>
+                        <span class="song-toggle">+</span>
+                    </span>
                 </button>
                 <div class="song-body">
                     <div class="song-img"><img src="images/dertriumph.png" alt="Der Triumph"></div>
@@ -1932,8 +1890,6 @@ Die Welt liegt mir zu Füßen.
 Mein Glück, mein Leben, es beginnt,
 Nichts kann diese Tür mehr schließen.</div>
                 </div>
-            </div>
-            <button class="song-play" aria-label="Abspielen">▶</button>
             </div>
 
         </div>
